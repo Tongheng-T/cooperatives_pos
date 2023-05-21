@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 display_message();
 
@@ -143,7 +143,7 @@ if (isset($_POST['btnsave'])) {
                                 <td>' . $row->password . '</td>
                                 <td>' . $row->role . '</td>
                                 <td>
-                                <a href="../../resources/templates/back/delete.php?id=' . $row->userid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" title="delete"></span></a>
+                                <a href="../resources/templates/back/delete.php?id=' . $row->userid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" title="delete"></span></a>
                                 </td>
                                 </tr>
                                 ';

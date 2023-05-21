@@ -22,7 +22,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
     <?php
 
-    if ($_SERVER['REQUEST_URI'] == "/cooperatives_pos/public/admin/" || $_SERVER['REQUEST_URI'] == "/cooperatives_pos/public/admin/itemt") {
+    if ($_SERVER['REQUEST_URI'] == "/admin/" || $_SERVER['REQUEST_URI'] == "/admin/itemt") {
 
         include(TEMPLATE_BACK . "/dashboard.php");
     }

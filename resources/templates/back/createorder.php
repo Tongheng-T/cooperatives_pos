@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 
@@ -276,7 +276,7 @@ if (isset($_POST['btnsaveorder'])) {
                 var productid = this.value;
                 var tr = $(this).parent().parent();
                 $.ajax({
-                    url: "../../resources/templates/back/getproduct.php",
+                    url: "../resources/templates/back/getproduct.php",
                     method: "get",
                     data: {
                         id: productid

@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 

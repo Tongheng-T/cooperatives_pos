@@ -13,7 +13,7 @@ RewriteRule ^itemt?$ index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-errorDocument 404 /cooperatives_pos/public/user/index.html
+errorDocument 404 /user/index.html
 
 # RewriteRule ^([^\.]+)$ $1.php [NC,L]
 # RewriteRule ^editscore/(.*)$ /date.php?tt=$1 [NC,L]

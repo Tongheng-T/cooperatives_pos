@@ -60,6 +60,7 @@
                         $select = query("SELECT * from tbl_invoice where order_date between '$date_1' AND '$date_2'");
                         confirm($select);
                         $no = 1;
+                        $totallo = 0;
                         while ($row = $select->fetch_object()) {
 
                             echo '

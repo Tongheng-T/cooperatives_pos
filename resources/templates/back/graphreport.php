@@ -3,7 +3,7 @@
 // error_reporting(0);
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 if(isset($_POST['date_1'])){

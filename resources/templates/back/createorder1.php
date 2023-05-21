@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 

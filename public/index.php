@@ -49,7 +49,7 @@
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session
       
-          <br><img src="../resources/images/loog.png" style="align-content: center;" height="200px" alt=""></p>
+          <br><img src="resources/images/loog.png" style="align-content: center;" height="200px" alt=""></p>
           
         <form action="" method="post">
           <div class="form-group has-feedback">

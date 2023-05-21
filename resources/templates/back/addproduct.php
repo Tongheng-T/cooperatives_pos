@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 if (isset($_POST['btnaddproduct'])) {

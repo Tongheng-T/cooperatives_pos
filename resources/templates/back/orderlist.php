@@ -1,7 +1,7 @@
 <?php
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 
@@ -98,7 +98,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                 .then((willDelete) => {
                     if (willDelete) {
                         $.ajax({
-                            url: '../../resources/templates/back/orderdelete.php',
+                            url: '../resources/templates/back/orderdelete.php',
                             type: 'post',
                             data: {
                                 pidd: id

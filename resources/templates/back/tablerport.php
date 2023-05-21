@@ -1,9 +1,8 @@
 <?php
 
-error_reporting(0);
 
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../../public");
+    header("Location: ../");
 }
 
 ?>
@@ -38,7 +37,7 @@ if(isset($_POST['date_1'])){
 }else{
     $date_1 = date('Y-m-01');
     $date_2 = date("Y-m-d");
-    $_SESSION['date'] = $_POST['date_1'] ;
+    $_SESSION['date'] = $date_1 ;
     $_SESSION['date_1'] = $date_1;
     $_SESSION['date_2'] = $date_2;
 }
@@ -82,7 +81,7 @@ if(isset($_POST['date_1'])){
                                 <input type="submit" name="btndatefilter" value="Filter By Dater"
                                     class="btn btn-success">   
                             </div><br>
-                            <button onclick="window.open('print')" class="btn btn-primary" id="print-btn">Print</button>
+                            <button onclick="window.open('print2')" class="btn btn-primary" id="print-btn">Print</button>
                         </div>
 
                     </div>
