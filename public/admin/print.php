@@ -30,10 +30,11 @@
                 </div>
                 <div class="top-left">
                     <div class="graphicc-path">
-                        <?php $date_1 = $_SESSION['date_1']; $date_2 = $_SESSION['date_2']; ?>
+                        <?php $date_1 = $_SESSION['date_1'];
+                        $date_2 = $_SESSION['date_2']; ?>
                         <!-- <h4>ព្រះរាជាណាចក្រកម្ពុជា</h4>
                         <h4 class="margino">ជាតិ សាសនា ព្រះមហាក្សត្រ</h4> -->
-                        <b>ចាប់ពីថ្ងៃទី: <?php echo date('d-m-Y', strtotime($date_1))?><br> ដល់ថ្ងៃទី: <?php echo date('d-m-Y', strtotime($date_2))?></b>
+                        <b>ចាប់ពីថ្ងៃទី: <?php echo date('d-m-Y', strtotime($date_1)) ?><br> ដល់ថ្ងៃទី: <?php echo date('d-m-Y', strtotime($date_2)) ?></b>
                     </div>
                 </div>
             </section>
@@ -82,9 +83,15 @@
                                 echo '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
                             }
                             $no++;
+                            $totallo += $row->total;
                         }
 
-
+                        echo '
+                        <tr>
+                        <td colspan="3"></td>
+                        <th>សរុប</th>
+                        <th>' . $totallo. ' <b style="font-size: 16px;">&#x17DB</b></th>
+                        </tr>';
 
                         ?>
 

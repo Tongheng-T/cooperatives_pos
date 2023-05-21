@@ -29,14 +29,16 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         -------------------------->
 <?php 
 if(isset($_POST['date_1'])){
+    $_SESSION['date'] = $_POST['date_1'] ;
     $date_1 = $_POST['date_1'];
     $date_2 = $_POST['date_2'];
 
     $_SESSION['date_1'] = $date_1;
     $_SESSION['date_2'] = $date_2;
 }else{
-    $date_1 = date("Y-n-j", strtotime("first day of previous month"));
+    $date_1 = date('Y-m-01');
     $date_2 = date("Y-m-d");
+    $_SESSION['date'] = $_POST['date_1'] ;
     $_SESSION['date_1'] = $date_1;
     $_SESSION['date_2'] = $date_2;
 }
