@@ -41,6 +41,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                         <table id="orderlisttable" class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>ល.រ</th>
                                     <th>Invoice ID</th>
                                     <th>Customer Namme</th>
                                     <th>OrderDate</th>
@@ -55,49 +56,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                             </thead>
 
                             <tbody>
-                                <?php
-                                $select = query("SELECT * from tbl_invoice order by invoice_id desc");
-                                confirm($select);
-                                while ($row = $select->fetch_object()) {
+                                <?php get_products();?>
 
-                                    echo '
-                                <tr>
-                                <td>' . $row->invoice_id . '</td>
-                                <td>' . $row->customer_name . '</td>
-                                <td>' . $row->order_date . '</td>
-                                <td>' . $row->total . '</td>
-                                <td>' . $row->paid . '</td>
-                                <td>' . $row->due . '</td>
-                                <td>' . $row->payment_type . '</td>
-                               
-                                <td>
-                                <a href="invoice_80mm_1.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
-                                </td>
-
-                                <td>
-                                <a href="itemt?editorder&id=' . $row->invoice_id . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a>
-                                </td>
-
-                                <td>
-                                <button id=' . $row->invoice_id . ' class="btn btn-danger btndelete"> <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Order"></span></button>
-                                </td>
-                          
-                                </tr>
-                                ';
-                                }
-
-
-                                ?>
-
-                                <!-- <td>
-                            <a href="deleteproduct.php?id=' . $row->pid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></a>
-                        </td> -->
-                            </tbody>
-
-                        </table>
-                    </div>
-
-                </div>
             <!-- </form> -->
 
         </div>
@@ -108,15 +68,15 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 <!-- /.content-wrapper -->
 
 <script>
-    $(document).ready(function() {
-        $('#orderlisttable').DataTable({
-            "order": [
-                [0, "desc"]
-            ]
-        });
-    });
-</script>
-<script>
+    // $(document).ready(function() {
+    //     $('#orderlisttable').DataTable({
+    //         "order": [
+    //             [0, "desc"]
+    //         ]
+    //     });
+    // });
+
+
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
     });

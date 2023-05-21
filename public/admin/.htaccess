@@ -1,6 +1,7 @@
 RewriteEngine On
 
 RewriteRule ^itemt?$ index.php
+RewriteRule ^orderlist?$ index.php
 # RewriteRule ^studentlist/?$ index.html
 # RewriteRule ^index/?$ index.html
 # RewriteRule ^index.php/?$ index.html

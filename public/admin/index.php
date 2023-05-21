@@ -51,6 +51,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK ."/orderlist.php") ;
     }
+    if(isset($_GET['page'])){
+
+        include(TEMPLATE_BACK ."/orderlist.php") ;
+    }
     if(isset($_GET['tablerport'])){
 
         include(TEMPLATE_BACK ."/tablerport.php") ;
