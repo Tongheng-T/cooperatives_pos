@@ -49,6 +49,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
                                     <th>Paid</th>
                                     <th>Due</th>
                                     <th>Payment Type</th>
+                                    <th>Phone Number</th>
                                     <th>Print</th>
                                     <th>Edit</th>
                                     <th>Delete</th>

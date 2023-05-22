@@ -171,7 +171,7 @@ if(isset($_POST['date_1'])){
                     <table id="salesreporttable" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>n0</th>
+                                <th>N.0</th>
                                 <th>Invoice ID</th>
                                 <th>Customer Namme</th>
                                 <th>Subtotal</th>
@@ -180,8 +180,10 @@ if(isset($_POST['date_1'])){
                                 <th>Total</th>
                                 <th>Paid</th>
                                 <th>Due</th>
+                                <th>Phone Number</th>
                                 <th>OrderDate</th>
                                 <th>Payment Type</th>
+                                
 
                             </tr>
                         </thead>
@@ -204,6 +206,7 @@ if(isset($_POST['date_1'])){
                                 <td><span class="label label-danger">' . number_format($row->total) . ' <b style="font-size: 14px;">&#x17DB</b></span></td>
                                 <td>' . $row->paid . '</td>
                                 <td>' . $row->due . '</td>
+                                <td>' . $row->phone . '</td>
 
                                 
                                 <td>' . date('d-m-Y', strtotime($row->order_date)) . '</td>

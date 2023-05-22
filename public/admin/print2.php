@@ -54,6 +54,7 @@
                             <th>តម្លៃសរុប</th>      
                             <th>Discount</th>
                             <th>សរុប</th>
+                            <th>លេខទូរស័ព្</th>
                             <th>ថ្ងៃខែ</th>
                             <th>ប្រភេទការទូទាត់</th>
                         </tr>
@@ -63,6 +64,7 @@
                         $select = query("SELECT * from tbl_invoice where order_date between '$date_1' AND '$date_2'");
                         confirm($select);
                         $oupu = "";
+                        $totall = 0;
                         $no = 1;
                         while ($row = $select->fetch_object()) {
                             $id_invoice = $row->invoice_id;
@@ -92,7 +94,7 @@
 
                                 <td>' . number_format($row->discount) . '</td>
                                 <th><span class="label label-danger">' . number_format($row->total) . ' <b style="font-size: 16px;">&#x17DB </b></span></th>
-          
+                                <td>' .$row->phone . '</td>
                                 <td>' . date('d-m-Y', strtotime($row->order_date)) . '</td>
                             ';
 
@@ -105,7 +107,16 @@
                                     $oupu .=  '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
                                 }
                             $no++;
+                            $totall += $row->total;
                         }
+
+                        $oupu .=
+                        '<tr>
+                        <td colspan="6"></td>
+                        <th>សរុប</th>
+                        <th>' . number_format($totall) . ' <b style="font-size: 16px;">&#x17DB </b></th>
+                        </tr>
+                         ';
                         echo $oupu;
 
 

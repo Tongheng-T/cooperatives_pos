@@ -15,6 +15,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 
 if (isset($_POST['btnsaveorder'])) {
     $customer_name = $_POST['txtcustomer'];
+    $phone = $_POST['txtphone'];
     $order_date = date('Y-m-d', strtotime($_POST['orderdate']));
     $subtotal = $_POST["txtsubtotal"];
     $tax = $_POST['txttax'];
@@ -33,7 +34,7 @@ if (isset($_POST['btnsaveorder'])) {
     $arr_total = $_POST['total'];
 
 
-    $insert = query("INSERT into tbl_invoice(customer_name,order_date,subtotal,tax,discount,total,paid,due,payment_type)values('{$customer_name}','{$order_date}','{$subtotal}','{$tax}','{$discount}','{$total}','{$paid}','{$due}','{$payment_type}')");
+    $insert = query("INSERT into tbl_invoice(customer_name,order_date,subtotal,tax,discount,total,paid,due,payment_type,phone)values('{$customer_name}','{$order_date}','{$subtotal}','{$tax}','{$discount}','{$total}','{$paid}','{$due}','{$payment_type}','{$phone}')");
     confirm($insert);
     // 2nd insert query for tbl_invoice_details
 
@@ -101,7 +102,7 @@ if (isset($_POST['btnsaveorder'])) {
 
                 <div class="box-body">
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Customer Name</label>
                             <div class="input-group">
@@ -112,7 +113,18 @@ if (isset($_POST['btnsaveorder'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                                <input type="text" class="form-control" name="txtphone" placeholder="Enter Phone Number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Date:</label>
 

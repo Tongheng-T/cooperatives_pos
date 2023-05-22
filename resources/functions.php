@@ -479,7 +479,7 @@ function get_products()
         $page = 1;
     }
 
-    $perPage = 15;
+    $perPage = 20;
     $lastPage = ceil($rows / $perPage);
     if ($page < 1) {
         $page = 1;
@@ -559,6 +559,7 @@ function get_products()
         <td>' . $row->paid . '</td>
         <td>' . $row->due . '</td>
         <td>' . $row->payment_type . '</td>
+        <td>' . $row->phone . '</td>
        
         <td>
         <a href="invoice_80mm_1.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>

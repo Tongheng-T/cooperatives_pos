@@ -237,7 +237,7 @@ while ($row = fetch_array($query)) {
 
                     echo '
                           <tr>
-                          <td><a href="editorder.php?id=' . $row->invoice_id . '">' . $row->invoice_id . '</a></td>
+                          <td><a href="itemt?editorder&id=' . $row->invoice_id . '">' . $row->invoice_id . '</a></td>
                           <td>' . $row->customer_name . '</td>
                           <td>' . $row->order_date . '</td>
                           <td><span class="label label-danger">' . number_format($row->total) . ' <b style="font-size: 14px;">&#x17DB</b></span></td>

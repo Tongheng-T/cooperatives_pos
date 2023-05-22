@@ -10,7 +10,7 @@ $id = $_GET['id'];
 $select = query("SELECT * from tbl_invoice where invoice_id =$id");
 confirm($select);
 $row = $select->fetch_assoc();
-
+$phone = $row['phone'];
 $customer_name = $row['customer_name'];
 $order_date = date('Y-m-d', strtotime($row['order_date']));
 $subtotal = $row["subtotal"];
@@ -34,6 +34,7 @@ confirm($row_invoice_detaice);
 
 if (isset($_POST['btnupdateorder'])) {
     $txt_customer_name = $_POST['txtcustomer'];
+    $phone = $_POST['txtphone'];
     $txt_order_date = date('Y-m-d', strtotime($_POST['orderdate']));
     $txt_subtotal = $_POST["txtsubtotal"];
     $txt_tax = $_POST['txttax'];
@@ -63,7 +64,7 @@ if (isset($_POST['btnupdateorder'])) {
 
     //////////////////////////-------------------------
 
-    $uodate_invoice = query("UPDATE tbl_invoice set customer_name='{$txt_customer_name}',order_date='{$txt_order_date}',subtotal='{$txt_subtotal}',tax='{$txt_tax}',discount='{$txt_discount}',total='{$txt_total}',paid='{$txt_paid}',due='{$txt_due}',payment_type='{$txt_payment_type}' where invoice_id=$id ");
+    $uodate_invoice = query("UPDATE tbl_invoice set customer_name='{$txt_customer_name}',order_date='{$txt_order_date}',subtotal='{$txt_subtotal}',tax='{$txt_tax}',discount='{$txt_discount}',total='{$txt_total}',paid='{$txt_paid}',due='{$txt_due}',payment_type='{$txt_payment_type}',phone='{$phone}' where invoice_id=$id ");
     confirm($uodate_invoice);
     $invoice_id = $id;
 
@@ -140,7 +141,7 @@ if (isset($_POST['btnupdateorder'])) {
 
             <div class="box-body">
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Customer Name</label>
                         <div class="input-group">
@@ -151,7 +152,18 @@ if (isset($_POST['btnupdateorder'])) {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <input type="text" class="form-control" name="txtphone" value="<?php echo $phone; ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>Date:</label>
 
