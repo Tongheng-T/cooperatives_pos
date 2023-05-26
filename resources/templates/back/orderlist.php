@@ -4,7 +4,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
     header("Location: ../");
 }
 
-
+display_message();
 ?>
 <!-- Content Wrapper. Contains page content -->
 

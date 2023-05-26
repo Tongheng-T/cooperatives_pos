@@ -15,14 +15,14 @@ $net_total = $row->t;
 
 
 
-$query = query("SELECT order_date, total from tbl_invoice group by order_date LIMIT 30");
+$query = query("SELECT order_date, sum(total) as subtotal  from tbl_invoice group by order_date LIMIT 30");
 
 $ttl = [];
 $date = [];
 while ($row = fetch_array($query)) {
 
   extract($row);
-  $ttl[] = $total;
+  $ttl[] = $subtotal;
   $date[] = $order_date;
 }
 // echo json_encode($total);
@@ -181,14 +181,14 @@ while ($row = fetch_array($query)) {
 
                 <tbody>
                   <?php
-                  $query = query("SELECT product_id,product_name,price, sum(qty) as q, sum(qty*price) as total from tbl_invoice_details group by product_id order by sum(qty) DESC LIMIT 30");
+                  $query = query("SELECT product_id,price, sum(qty) as q, sum(qty*price) as total from tbl_invoice_details group by product_id order by sum(qty) DESC LIMIT 30");
                   confirm($query);
                   while ($row = mysqli_fetch_object($query)) {
                     // <i class="fa" style="font-size: 30px;">៛</i>
                     echo '
                           <tr>
                           <td>' . $row->product_id . '</td>
-                          <td>' . $row->product_name . '</td>
+                          <td>' . show_productname($row->product_id) . '</td>
                           <td><span class="label label-info">' . $row->q . '</span></td>
                           <td><span class="label label-success">' . number_format($row->price) . ' <b style="font-size: 14px;">&#x17DB</b></span></td>
                           <td><span class="label label-danger">' . number_format($row->total) . ' <b style="font-size: 14px;">&#x17DB</b></span></td>

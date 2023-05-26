@@ -1,10 +1,10 @@
 <?php require_once("../../resources/config.php"); ?>
 
-<?php 
+<?php
 
 if ($_SESSION['role'] == "Admin") {
     include_once(TEMPLATE_BACK . "/header.php");
-}else{
+} else {
     include_once(TEMPLATE_BACK . "/headeruser.php");
 }
 ?>
@@ -39,49 +39,61 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/addproduct.php");
     }
-    if(isset($_GET['productlist'])){
+    if (isset($_GET['productlist'])) {
 
-        include(TEMPLATE_BACK ."/productlist.php") ;
+        include(TEMPLATE_BACK . "/productlist.php");
     }
-    if(isset($_GET['createorder'])){
+    if (isset($_GET['createorder'])) {
 
-        include(TEMPLATE_BACK ."/createorder.php") ;
+        include(TEMPLATE_BACK . "/createorder.php");
     }
-    if(isset($_GET['orderlist'])){
+    if (isset($_GET['orderlist'])) {
 
-        include(TEMPLATE_BACK ."/orderlist.php") ;
+        include(TEMPLATE_BACK . "/orderlist.php");
     }
-    if(isset($_GET['page'])){
+    if (isset($_GET['page'])) {
 
-        include(TEMPLATE_BACK ."/orderlist.php") ;
+        include(TEMPLATE_BACK . "/orderlist.php");
     }
-    if(isset($_GET['tablerport'])){
+    if (isset($_GET['tablerport'])) {
 
-        include(TEMPLATE_BACK ."/tablerport.php") ;
+        include(TEMPLATE_BACK . "/tablerport.php");
     }
-    if(isset($_GET['graphreport'])){
+    if (isset($_GET['graphreport'])) {
 
-        include(TEMPLATE_BACK ."/graphreport.php") ;
+        include(TEMPLATE_BACK . "/graphreport.php");
     }
-    if(isset($_GET['registration'])){
+    if (isset($_GET['registration'])) {
 
-        include(TEMPLATE_BACK ."/registration.php") ;
+        include(TEMPLATE_BACK . "/registration.php");
     }
-    if(isset($_GET['changepassword'])){
+    if (isset($_GET['changepassword'])) {
 
-        include(TEMPLATE_BACK ."/changepassword.php") ;
+        include(TEMPLATE_BACK . "/changepassword.php");
     }
-    if(isset($_GET['viewproduct'])){
+    if (isset($_GET['viewproduct'])) {
 
-        include(TEMPLATE_BACK ."/viewproduct.php") ;
+        include(TEMPLATE_BACK . "/viewproduct.php");
     }
-    if(isset($_GET['editorder'])){
+    if (isset($_GET['editorder'])) {
 
-        include(TEMPLATE_BACK ."/editorder.php") ;
+        include(TEMPLATE_BACK . "/editorder.php");
     }
-    if(isset($_GET['editproduct'])){
+    if (isset($_GET['editproduct'])) {
 
-        include(TEMPLATE_BACK ."/editproduct.php") ;
+        include(TEMPLATE_BACK . "/editproduct.php");
+    }
+    if (isset($_GET['cost'])) {
+
+        include(TEMPLATE_BACK . "/cost.php");
+    }
+    if (isset($_GET['edit_cost'])) {
+
+        include(TEMPLATE_BACK . "/edit_cost.php");
+    }
+    if (isset($_GET['reportbycategory'])) {
+
+        include(TEMPLATE_BACK . "/reportbycategory.php");
     }
     ?>
 

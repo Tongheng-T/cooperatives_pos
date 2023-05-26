@@ -27,7 +27,7 @@ if (isset($_POST['btnsaveorder'])) {
     ////////////////////////////////////
 
     $arr_productid = $_POST['productid'];
-    $arr_category_id = $_POST['category_id'];
+    $arr_productname = $_POST['productname'];
     $arr_stock = $_POST['stock'];
     $arr_qty = $_POST['qty'];
     $arr_price = $_POST['price'];
@@ -51,7 +51,7 @@ if (isset($_POST['btnsaveorder'])) {
                 confirm($update);
             }
 
-            $insert = query("INSERT into tbl_invoice_details(invoice_id,product_id,category_id,qty,price,order_date)values('{$invoice_id}','{$arr_productid[$i]}','{$arr_category_id[$i]}','{$arr_qty[$i]}','{$arr_price[$i]}','{$order_date}')");
+            $insert = query("INSERT into tbl_invoice_details(invoice_id,product_id,product_name,qty,price,order_date)values('{$invoice_id}','{$arr_productid[$i]}','{$arr_productname[$i]}','{$arr_qty[$i]}','{$arr_price[$i]}','{$order_date}')");
             // $insert->bindParam(':invid', $invoice_id);
             // $insert->bindParam(':pid', $arr_productid[$i]);
             // $insert->bindParam(':pname', $arr_productname[$i]);
@@ -199,7 +199,7 @@ if (isset($_POST['btnsaveorder'])) {
                             <div class="input-group-addon">
                                 <i class="fa" style="font-size: 30px;">៛</i>
                             </div>
-                            <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
+                            <input type="text" class="form-control" name="txttotal" id="txttotal"  jAutoCalc="{txtsubtotal} - {txtdiscount}" required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -217,7 +217,7 @@ if (isset($_POST['btnsaveorder'])) {
                             <div class="input-group-addon">
                                 <i class="fa" style="font-size: 30px;">៛</i>
                             </div>
-                            <input type="text" class="form-control" name="txtdue" id="txtdue" required readonly>
+                            <input type="text" class="form-control" name="txtdue" id="txtdue" jAutoCalc="{txttotal} - {txtpaid}" required readonly>
                         </div>
                     </div>
 
@@ -260,23 +260,23 @@ if (isset($_POST['btnsaveorder'])) {
     //     document.getElementsByName("total")[index].value = total;
     // }
     //Date picker
-    $('#datepicker').datepicker({
-        autoclose: true
-    });
+    // $('#datepicker').datepicker({
+    //     autoclose: true
+    // });
 
 
     //Red color scheme for iCheck
-    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-        checkboxClass: 'icheckbox_minimal-red',
-        radioClass: 'iradio_minimal-red'
-    });
+    // $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+    //     checkboxClass: 'icheckbox_minimal-red',
+    //     radioClass: 'iradio_minimal-red'
+    // });
 
     $(document).ready(function() {
 
         $(document).on('click', '.btnadd', function() {
             var html = '';
             html += '<tr>';
-            html += '<td> <input type="hidden" class="form-control category_id" name="category_id[]" readonly></td>';
+            html += '<td> <input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
 
             html += '<td> <select class="form-control productid" name="productid[]" style="width: 250px";><option value="">Select Option</option><?php fill_product(); ?></select></td>';
 
@@ -285,7 +285,7 @@ if (isset($_POST['btnsaveorder'])) {
             html += '<td> <input type="number" min="1" class="form-control qty" name="qty[]"></td>';
             html += '<td> <input type="text" class="form-control total" name="total[]" readonly></td>';
 
-            html += '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove"> <span class="glyphicon glyphicon-remove"></span></button></center></td></tr>';
+            html += '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove"> <span class="glyphicon glyphicon-remove"></span></button></center></td>';
             $('#producttable').append(html);
 
             //Initialize Select2 Elements
@@ -304,7 +304,7 @@ if (isset($_POST['btnsaveorder'])) {
                     success: function(data) {
                         // console.log(data);
 
-                        tr.find(".category_id").val(data["category_id"]);
+                        tr.find(".pname").val(data["pname"]);
                         tr.find(".stock").val(data["pstock"]);
                         tr.find(".price").val(data["saleprice"]);
                         tr.find(".qty").val(1);
@@ -351,31 +351,31 @@ if (isset($_POST['btnsaveorder'])) {
 
             tax = 0 * subtotal;
             net_total = tax + subtotal;
-            net_total = net_total - discount;
-            due = net_total - paid_amt;
+            // net_total = net_total - discount;
+            // due = net_total - paid_amt;
 
 
             $("#txtsubtotal").val(subtotal.toFixed(2));
             $("#txttax").val(tax.toFixed(2));
-            $("#txttotal").val(net_total.toFixed(2));
+            // $("#txttotal").val(net_total.toFixed(2));
             $("#txtdiscount").val(discount);
             $("#txtdue").val(due.toFixed(2));
 
-            $("#txtdiscount").keyup(function() {
-                var discount = $(this).val();
-                calculate(discount, 0);
-            })
-            $("#txtpaid").keyup(function() {
-                var paid = $(this).val();
-                var discount = $("#txtdiscount").val();
-                calculate(discount, paid);
-            })
+            // $("#txtdiscount").keyup(function() {
+            //     var discount = $(this).val();
+            //     calculate(discount, 0);
+            // })
+            // $("#txtpaid").keyup(function() {
+            //     var paid = $(this).val();
+            //     var discount = $("#txtdiscount").val();
+            //     calculate(discount, paid);
+            // })
         }
 
 
     });
 </script>
-<!-- <script>
+<script>
         function autoCalcSetup() {
             $('form#cart').jAutoCalc('destroy');
             $('form#cart tr.line_items').jAutoCalc({
@@ -388,4 +388,4 @@ if (isset($_POST['btnsaveorder'])) {
             });
         }
         autoCalcSetup();
-    </script> -->
+    </script>

@@ -46,7 +46,7 @@ if (isset($_POST['btnaddproduct'])) {
 
                 if (!isset($error)) {
 
-                    $insert = query("INSERT into tbl_product(pname,pcategory,purchaseprice,saleprice,pstock,pdescription,pimage)
+                    $insert = query("INSERT into tbl_product(pname,category_id,purchaseprice,saleprice,pstock,pdescription,pimage)
                     VALUES('{$productname}','{$category}','{$purchaseprice}','{$saleprice}','{$stock}','{$description}','{$productimage}')");
                     confirm($insert);
 
@@ -141,7 +141,7 @@ if (isset($_POST['btnaddproduct'])) {
                             while ($row = $select->fetch_object()) {
 
                                 echo '
-                                    <option>' . $row->category . '</option>
+                                    <option value="' . $row->catid . '">' . $row->category . '</option>
                                 ';
                             }
                             ?>

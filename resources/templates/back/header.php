@@ -8,11 +8,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Dashboard| By:TH</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <link rel='shortcut icon' href="../productimages/a.png">
+    <link rel='shortcut icon' href="../productimages/256.ico" type="image/x-icon">
+    <link rel="icon" href="../productimages/32.ico" sizes="32x32">
+    <link rel="icon" href="../productimages/48.ico" sizes="48x48">
+    <link rel="icon" href="../productimages/96.ico" sizes="96x96">
+    <link rel="icon" href="../productimages/256.ico" sizes="144x144">
+    
+    <!-- <link rel='shortcut icon' href="../productimages/a.png"> -->
     <!-- jQuery 3 -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -80,8 +85,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- iCheck 1.0.1 -->
     <script src="../plugins/iCheck/icheck.min.js"></script>
-    <!-- <script src="../dist/js/jautocalcg.js"></script> -->
-    <link rel="stylesheet" href="../dist/css/castom.css">
+
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- auto sum -->
+
+    <!-- <script src="../dist/js/jquery.js"></script> -->
+    <script src="../dist/js/jautocalc.min.js"></script>
+    <!-- auto sum -->
+    <link rel="stylesheet" href="../dist/css/castomm.css">
 
     <!-- Select2 -->
     <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
@@ -234,9 +245,11 @@ desired effect
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="itemt?tablerport" class=" <?php actr("tablerport");?>"><i class="fa fa-circle-o"></i> Table Report</a></li>
+                            <li><a href="itemt?reportbycategory" class=" <?php actr("reportbycategory");?>"><i class="fa fa-circle-o"></i> Report By Category</a></li>
                             <li><a href="itemt?graphreport" class=" <?php actr("graphreport");?>"><i class="fa fa-circle-o"></i> Grpah Report</a></li>
                         </ul>
                     </li>
+                    <li><a href="itemt?cost" class=" <?php actr("cost");?>"><i class="fa fa-usd"></i> <span>ចំណាយ</span></a></li>
                     <li><a href="itemt?registration" class=" <?php actr("registration");?>"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
 
 

@@ -1,14 +1,12 @@
 <?php
-include_once 'connectdb.php';
-session_start();
+
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-  header('location:index.php');
+  header("Location: ../");
 }
 
-include_once 'header.php';
 ?>
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
@@ -44,7 +42,5 @@ include_once 'header.php';
 
   </section>
   <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
 
-<?php include_once 'footer.php' ?>
+<!-- /.content-wrapper -->

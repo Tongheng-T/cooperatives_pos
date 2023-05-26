@@ -92,6 +92,10 @@ if(isset($_POST['date_1'])){
                     <br><br>
 
                     <?php
+                    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2'");
+                    confirm($tbl_cost);
+                    $row_cost = $tbl_cost->fetch_object();
+
                     $select = query("SELECT sum(total) as total , sum(subtotal) as stotal,count(invoice_id) as invoice from tbl_invoice where order_date between '$date_1' AND '$date_2'");
                     confirm($select);
                     $row = $select->fetch_object();
@@ -102,6 +106,8 @@ if(isset($_POST['date_1'])){
 
                     $invoice = $row->invoice;
 
+                    $total_cost = $stotal - $row_cost->total_cost;
+
 
 
 
@@ -110,7 +116,7 @@ if(isset($_POST['date_1'])){
                     ?>
                     <!-- Info boxes -->
                     <div class="row">
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-files-o"></i></span>
 
@@ -131,7 +137,7 @@ if(isset($_POST['date_1'])){
                         <!-- fix for small devices only -->
                         <div class="clearfix visible-sm-block"></div>
 
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
                                 <span class="info-box-icon bg-green"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
@@ -145,8 +151,22 @@ if(isset($_POST['date_1'])){
                             </div>
                             <!-- /.info-box -->
                         </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">សរុបដកប្រាក់ចំណាយ</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo number_format($total_cost); ?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
                         <!-- /.col -->
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
                                 <span class="info-box-icon bg-yellow"><i class="fa" style="font-size: 96px; ">៛</i></span>
 

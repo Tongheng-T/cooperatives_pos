@@ -1,0 +1,93 @@
+:root {
+    --body-bg: rgb(204, 204, 204);
+    --white: #ffffff;
+    --darkWhite: #ccc;
+    --black: #000000;
+    --dark: #615c60;
+    --themeColor: #22b8d1;
+    --pageShadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+}
+
+
+/* Font Include */
+
+@font-face {
+    font-family: "tong";
+    src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
+}
+
+@font-face {
+    font-family: "KhmerOSMoulLight";
+    src: url(../../fone/KhmerOSMoulLight.ttf)format("truetype");
+}
+
+* {
+    font-size: 12px;
+    font-family: 'tong';
+}
+
+td,
+th,
+tr,
+table {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table {
+    width: 98%;
+    margin: 2px;
+    text-align: center;
+    align-content: center;
+}
+
+
+/* td.description,
+th.description {
+    width: 75px;
+    max-width: 75px;
+} */
+
+td.quantity,
+th.quantity {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+td.price,
+th.price {
+    width: 40px;
+    max-width: 40px;
+    word-break: break-all;
+}
+
+.centered {
+    text-align: center;
+    align-content: center;
+}
+
+.ticket {
+    width: 80mm;
+    max-width: 80mm;
+    display: block;
+    background: var(--white);
+    margin: 0 auto;
+    position: relative;
+}
+
+.logo img {
+    height: 120px;
+}
+
+.logo {
+    text-align: center;
+}
+
+@media print {
+    @page {
+        size: 86mm 200mm;
+        margin: 0;
+        /* auto is the initial value */
+    }
+}

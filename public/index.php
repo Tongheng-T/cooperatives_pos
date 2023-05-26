@@ -14,9 +14,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>POS | Log in</title>
+    <title>POS-តំបែររុងរឿង | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel='shortcut icon' href="productimages/256.ico" type="image/x-icon">
+    <link rel="icon" href="productimages/32.ico" sizes="32x32">
+    <link rel="icon" href="productimages/48.ico" sizes="48x48">
+    <link rel="icon" href="productimages/96.ico" sizes="96x96">
+    <link rel="icon" href="productimages/256.ico" sizes="144x144">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->

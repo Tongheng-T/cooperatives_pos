@@ -46,7 +46,7 @@ if (isset($_POST['btnupdateorder'])) {
     ////////////////////////////////////
 
     $arr_productid = $_POST['productid'];
-    $arr_productname = $_POST['productname'];
+    $arr_category_id = $_POST['category_id'];
     $arr_stock = $_POST['stock'];
     $arr_qty = $_POST['qty'];
     $arr_price = $_POST['price'];
@@ -94,10 +94,20 @@ if (isset($_POST['btnupdateorder'])) {
 
             ////7
 
-            $insert = query("INSERT into tbl_invoice_details(invoice_id,product_id,product_name,qty,price,order_date)values('{$id}','{$arr_productid[$i]}','{$arr_productname[$i]}','{$arr_qty[$i]}','{$arr_price[$i]}','{$txt_order_date}')");
+            $insert = query("INSERT into tbl_invoice_details(invoice_id,product_id,category_id,qty,price,order_date)values('{$id}','{$arr_productid[$i]}','{$arr_category_id[$i]}','{$arr_qty[$i]}','{$arr_price[$i]}','{$txt_order_date}')");
             confirm($insert);
 
             // echo "success fully created order";
+            set_message('<script type="text/javascript">
+            jQuery(function validation(){
+              swal({
+                title:"Update successfull!!",
+                text: "Order is deleted!",
+                icon: "success",
+                button: "Ok",
+              });
+            });
+            </script>');
 
             redirect('itemt?orderlist');
         }
@@ -209,7 +219,7 @@ if (isset($_POST['btnupdateorder'])) {
                                 <tr>
                                     <?php
 
-                                    echo '<td> <input type="hidden" class="form-control pname" name="productname[]"  value="' . $row_product['pname'] . '" readonly></td>';
+                                    echo '<td> <input type="hidden" class="form-control category_id" name="category_id[]"  value="' . $row_product['category_id'] . '" readonly></td>';
 
                                     echo '<td> <select class="form-control productidedit" name="productid[]" style="width: 250px";><option value="">Select Option</option>' . fill_productt($item_invoice_details['product_id']) . '</select></td>';
 
@@ -340,7 +350,7 @@ if (isset($_POST['btnupdateorder'])) {
             var productid = this.value;
             var tr = $(this).parent().parent();
             $.ajax({
-                url: "getproduct.php",
+                url: "../../resources/templates/back/getproduct.php",
                 method: "get",
                 data: {
                     id: productid
@@ -348,7 +358,7 @@ if (isset($_POST['btnupdateorder'])) {
                 success: function(data) {
                     // console.log(data);
 
-                    tr.find(".pname").val(data["pname"]);
+                    tr.find(".category_id").val(data["category_id"]);
                     tr.find(".stock").val(data["pstock"]);
                     tr.find(".price").val(data["saleprice"]);
                     tr.find(".qty").val(1);
@@ -366,7 +376,7 @@ if (isset($_POST['btnupdateorder'])) {
         $(document).on('click', '.btnadd', function() {
             var html = '';
             html += '<tr>';
-            html += '<td> <input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
+            html += '<td> <input type="hidden" class="form-control category_id" name="category_id[]" readonly></td>';
 
             html += '<td> <select class="form-control productid" name="productid[]" style="width: 250px";><option value="">Select Option</option><?php fill_product(); ?></select></td>';
 
@@ -394,7 +404,7 @@ if (isset($_POST['btnupdateorder'])) {
                     success: function(data) {
                         // console.log(data);
 
-                        tr.find(".pname").val(data["pname"]);
+                        tr.find(".category_id").val(data["category_id"]);
                         tr.find(".stock").val(data["pstock"]);
                         tr.find(".price").val(data["saleprice"]);
                         tr.find(".qty").val(1);

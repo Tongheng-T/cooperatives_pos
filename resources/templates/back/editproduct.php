@@ -66,7 +66,7 @@ if (isset($_POST['btnupdate'])) {
 
                     if (!isset($error)) {
 
-                        $update = query("UPDATE tbl_product set pname='{$productname_txt}', pcategory='{$category_txt}',purchaseprice='{$purchaseprice_txt}',saleprice='{$saleprice_txt}',pstock='{$stock_txt}',pdescription='{$description_txt}',pimage='{$f_newfile}' where pid = $id");
+                        $update = query("UPDATE tbl_product set pname='{$productname_txt}', category_id='{$category_txt}',purchaseprice='{$purchaseprice_txt}',saleprice='{$saleprice_txt}',pstock='{$stock_txt}',pdescription='{$description_txt}',pimage='{$f_newfile}' where pid = $id");
                         confirm($update);
                         if ($update) {
                             echo '<script type="text/javascript">
@@ -109,7 +109,7 @@ if (isset($_POST['btnupdate'])) {
             echo $error;
         }
     } else {
-        $update = query("UPDATE tbl_product set pname='{$productname_txt}', pcategory='{$category_txt}',purchaseprice='{$purchaseprice_txt}',saleprice='{$saleprice_txt}',pstock='{$stock_txt}',pdescription='{$description_txt}',pimage='{$productimage_db}' where pid = $id");
+        $update = query("UPDATE tbl_product set pname='{$productname_txt}', category_id='{$category_txt}',purchaseprice='{$purchaseprice_txt}',saleprice='{$saleprice_txt}',pstock='{$stock_txt}',pdescription='{$description_txt}',pimage='{$productimage_db}' where pid = $id");
         confirm($update);
         if ($update) {
             $error = '<script type="text/javascript">
@@ -146,7 +146,7 @@ confirm($select);
 $row = $select->fetch_assoc();
 $id_db = $row['pid'];
 $productname_db = $row['pname'];
-$category_db = $row['pcategory'];
+$category_db = $row['category_id'];
 $purchseprice_db = $row['purchaseprice'];
 $saleprice_db = $row['saleprice'];
 $stock_db = $row['pstock'];
@@ -203,9 +203,9 @@ $productimage_db = $row['pimage'];
                                 while ($row = $select->fetch_assoc()) {
                                     extract($row)
                                 ?>
-                                    <option <?php if ($row['category'] == $category_db) { ?> selected="selected" <?php } ?>>
+                                    <option value="<?php echo $row['catid'] ?>" <?php if ($row['catid'] == $category_db) { ?> selected="selected" <?php } ?>>
 
-                                        <?php echo $row['category']; ?></option>
+                                        <?php echo show_categoryname($row['catid']); ?></option>
 
                                 <?php } ?>
                             </select>

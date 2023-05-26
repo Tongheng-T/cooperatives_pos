@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+<!-- <xsl:attribute name="page-height">200cm</xsl:attribute> -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../dist/css/stylee.css">
     <link href="../dist/css/print.css" rel="stylesheet" media="print">
 
-    <title>តារាងពន្ទុប្រចាំខែ: <?php date_rank(); ?></title>
+    <title>របាយការណ៍ការលក់ប្រចាំខែ: <?php date_rank(); ?></title>
 </head>
 
 <body>
@@ -74,7 +74,7 @@
 
 
                             while ($row_detaice = $row_invoice_detaice->fetch_object()) {
-                                $product_name = $row_detaice->product_name;
+                                $product_name = show_productname($row_detaice->product_id);
                                 $oupu .= '
                                 <tr>
                                 <td>' . $no . '</td>
@@ -100,11 +100,11 @@
 
                                 if ($row->payment_type == "Cash") {
 
-                                    $oupu .=  '<td><span class="label label-primary">' . $row->payment_type . '</span></td>';
+                                    $oupu .=  '<td><span class="label label-primary">' . $row->payment_type . '</span></td></tr>';
                                 } elseif ($row->payment_type == "Card") {
-                                    $oupu .=  '<td><span class="label label-warning">' . $row->payment_type . '</span></td>';
+                                    $oupu .=  '<td><span class="label label-warning">' . $row->payment_type . '</span></td></tr>';
                                 } else {
-                                    $oupu .=  '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
+                                    $oupu .=  '<td><span class="label label-info">' . $row->payment_type . '</span></td></tr>';
                                 }
                             $no++;
                             $totall += $row->total;
@@ -128,6 +128,7 @@
 
             <script>
                 window.print();
+                
             </script>
 
 

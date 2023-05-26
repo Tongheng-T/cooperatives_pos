@@ -67,7 +67,7 @@ display_message();
                                 <tr>
                                 <td>' . $row->pid . '</td>
                                 <td>' . $row->pname . '</td>
-                                <td>' . $row->pcategory . '</td>
+                                <td>' . show_categoryname($row->category_id) . '</td>
                                 <td>' . $row->purchaseprice . '</td>
                                 <td>' . $row->saleprice . '</td>
                                 <td>' . $row->pstock . '</td>

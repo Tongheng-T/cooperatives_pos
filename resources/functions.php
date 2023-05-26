@@ -558,24 +558,26 @@ function get_products()
         <td>' . $row->total . '</td>
         <td>' . $row->paid . '</td>
         <td>' . $row->due . '</td>
-        <td>' . $row->payment_type . '</td>
-        <td>' . $row->phone . '</td>
-       
-        <td>
-        <a href="invoice_80mm_1.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
-        </td>
-
-        <td>
-        <a href="itemt?editorder&id=' . $row->invoice_id . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a>
-        </td>
-
-        <td>
-        <button id=' . $row->invoice_id . ' class="btn btn-danger btndelete"> <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Order"></span></button>
-        </td>
-  
-        </tr>
         ';
-        $no++ ;
+        if ($row->payment_type == "Cash") {
+
+            $product .= '<td><span class="label label-primary">' . $row->payment_type . '</span></td>';
+        } elseif ($row->payment_type == "Card") {
+            $product .= '<td><span class="label label-warning">' . $row->payment_type . '</span></td>';
+        } else {
+            $product .= '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
+        }
+
+        $product .= '       
+        <td>' . $row->phone . '</td> 
+        <td>
+        <a href="invoice_80mm.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
+        </td>
+        <td><a href="itemt?editorder&id=' . $row->invoice_id . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a></td>
+        ' . show_delete($row->invoice_id) . '
+
+        </tr>';
+        $no++;
     }
 
     $product .= '                         
@@ -586,4 +588,40 @@ function get_products()
 
     echo $product;
     echo "<div class='text-center'><ul class='pagination'>{$outputPagination}</ul></div>";
+}
+
+
+function show_delete($invoice_id)
+{
+    if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "Admin") {
+
+        return '<td>
+        <button id=' . $invoice_id . ' class="btn btn-danger btndelete"> <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Order"></span></button>
+        </td>';
+    }
+}
+
+
+
+function show_name_category($catid)
+{
+    $tblcategory = query("SELECT * from tbl_category where catid = '$catid'");
+    $row = $tblcategory->fetch_object();
+    echo '
+    <option selected value="' . $row->catid . '">' . $row->category . '</option>
+';
+}
+
+function show_productname($pid)
+{
+    $tbl_product = query("SELECT * from tbl_product where pid ='$pid'");
+    $row = $tbl_product->fetch_object();
+    return $row->pname;
+}
+
+function show_categoryname($pid)
+{
+    $tbl_product = query("SELECT * from tbl_category where catid ='$pid'");
+    $row = $tbl_product->fetch_object();
+    return $row->category;
 }

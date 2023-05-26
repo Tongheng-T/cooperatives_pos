@@ -9,6 +9,11 @@
     src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
 }
 
+@font-face {
+    font-family: "KhmerOSMoulLight";
+    src: url(../../fone/KhmerOSMoulLight.ttf)format("truetype");
+}
+
 .login-logo .font_tong {
     font-family: "tong";
 }
