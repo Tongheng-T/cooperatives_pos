@@ -92,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- <script src="../dist/js/jquery.js"></script> -->
     <script src="../dist/js/jautocalc.min.js"></script>
     <!-- auto sum -->
-    <link rel="stylesheet" href="../dist/css/castomm.css">
+    <link rel="stylesheet" href="../dist/css/castom.css">
 
     <!-- Select2 -->
     <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>

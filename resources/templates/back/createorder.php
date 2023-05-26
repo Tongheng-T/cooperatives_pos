@@ -199,7 +199,7 @@ if (isset($_POST['btnsaveorder'])) {
                             <div class="input-group-addon">
                                 <i class="fa" style="font-size: 30px;">៛</i>
                             </div>
-                            <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
+                            <input type="text" class="form-control" name="txttotal" id="txttotal"  jAutoCalc="{txtsubtotal} - {txtdiscount}" required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -217,7 +217,7 @@ if (isset($_POST['btnsaveorder'])) {
                             <div class="input-group-addon">
                                 <i class="fa" style="font-size: 30px;">៛</i>
                             </div>
-                            <input type="text" class="form-control" name="txtdue" id="txtdue" required readonly>
+                            <input type="text" class="form-control" name="txtdue" id="txtdue" jAutoCalc="{txttotal} - {txtpaid}" required readonly>
                         </div>
                     </div>
 
@@ -337,12 +337,12 @@ if (isset($_POST['btnsaveorder'])) {
             }
         })
 
-        function calculate(dis, paid) {
+        function calculate() {
             var subtotal = 0;
             var tax = 0;
-            var discount = dis;
+            var discount = 0;
             var net_total = 0;
-            var paid_amt = paid;
+            var paid_amt = 0;
             var due = 0;
 
             $(".total").each(function() {
@@ -351,31 +351,32 @@ if (isset($_POST['btnsaveorder'])) {
 
             tax = 0 * subtotal;
             net_total = tax + subtotal;
-            net_total = net_total - discount;
-            due = net_total - paid_amt;
+            // net_total = net_total - discount;
+            // due = net_total - paid_amt;
 
 
             $("#txtsubtotal").val(subtotal.toFixed(2));
             $("#txttax").val(tax.toFixed(2));
+            $("#txtpaid").val(paid_amt);
             $("#txttotal").val(net_total.toFixed(2));
             $("#txtdiscount").val(discount);
             $("#txtdue").val(due.toFixed(2));
 
-            $("#txtdiscount").keyup(function() {
-                var discount = $(this).val();
-                calculate(discount, 0);
-            })
-            $("#txtpaid").keyup(function() {
-                var paid = $(this).val();
-                var discount = $("#txtdiscount").val();
-                calculate(discount, paid);
-            })
+            // $("#txtdiscount").keyup(function() {
+            //     var discount = $(this).val();
+            //     calculate(discount, 0);
+            // })
+            // $("#txtpaid").keyup(function() {
+            //     var paid = $(this).val();
+            //     var discount = $("#txtdiscount").val();
+            //     calculate(discount, paid);
+            // })
         }
 
 
     });
 </script>
-<!-- <script>
+<script>
         function autoCalcSetup() {
             $('form#cart').jAutoCalc('destroy');
             $('form#cart tr.line_items').jAutoCalc({
@@ -388,4 +389,4 @@ if (isset($_POST['btnsaveorder'])) {
             });
         }
         autoCalcSetup();
-    </script> -->
+    </script>
