@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- iCheck 1.0.1 -->
     <script src="../plugins/iCheck/icheck.min.js"></script>
     <link rel="stylesheet" href="../dist/css/castom.css">
-
+    <script src="../dist/js/jautocalc.min.js"></script>
     <!-- Select2 -->
     <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
 

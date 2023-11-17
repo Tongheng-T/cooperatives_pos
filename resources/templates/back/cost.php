@@ -11,19 +11,31 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
 // }
 
 
-
 if (isset($_POST['btnsaveorder'])) {
   $order_date = date('Y-m-d', strtotime($_POST['orderdate']));
   ////////////////////////////////////
   $arr_name_cost = $_POST['name_cost'];
   $arr_qty_cost = $_POST['qty_cost'];
 
-  // 2nd insert query for tbl_invoice_details
-  for ($i = 0; $i < count($arr_name_cost); $i++) {
+  if (empty($arr_qty_cost)) {
+    set_message('<script type="text/javascript">
+    jQuery(function validation(){
+      swal({
+        title:"Error!",
+        text: "NO Data",
+        icon: "error",
+        button: "Ok",
+      });
+    });
+    </script>');
+  } else {
+    // 2nd insert query for tbl_invoice_details
+    for ($i = 0; $i < count($arr_name_cost); $i++) {
 
-    $insert = query("INSERT into tbl_cost(name_cost,qty_cost,cost_date)values('{$arr_name_cost[$i]}','{$arr_qty_cost[$i]}','{$order_date}')");
+      $insert = query("INSERT into tbl_cost(name_cost,qty_cost,cost_date)values('{$arr_name_cost[$i]}','{$arr_qty_cost[$i]}','{$order_date}')");
 
-    redirect("itemt?cost");
+      redirect("itemt?cost");
+    }
   }
 }
 
@@ -189,7 +201,7 @@ if (isset($_POST['btnsaveorder'])) {
       var html = '';
       html += '<tr>';
       html += '<td> <input type="text" class="form-control name" name="name_cost[]"></td>';
-      html += '<td> <input type="number" min="1" class="form-control qty" name="qty_cost[]"></td>';
+      html += '<td> <input type="number" min="1" class="form-control qty" name="qty_cost[]" required></td>';
       html += '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove"> <span class="glyphicon glyphicon-remove"></span></button></center></td>';
       $('#producttable').append(html);
 

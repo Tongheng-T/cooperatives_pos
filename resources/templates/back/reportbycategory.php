@@ -33,6 +33,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         $date_2 = $_POST['date_2'];
         $category_id = $_POST['category_id'];
 
+        $_SESSION['category_id'] = $category_id;
+
         $_SESSION['date_1'] = $date_1;
         $_SESSION['date_2'] = $date_2;
     } else {
@@ -42,6 +44,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         $_SESSION['date_1'] = $date_1;
         $_SESSION['date_2'] = $date_2;
         $category_id = ' ';
+        $_SESSION['category_id'] = $category_id;
     }
 
     ?>
@@ -102,10 +105,113 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                         <div align="left">
                             <input type="submit" name="btndatefilter" value="Filter By Dater" class="btn btn-success">
                         </div><br>
-                        <!-- <button onclick="window.open('print2')" class="btn btn-primary" id="print-btn">Print</button> -->
+                        <button onclick="window.open('print_category')" class="btn btn-primary" id="print-btn">Print</button>
                     </div>
 
-                </div>
+                </div><br>
+
+                <?php
+                    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2'");
+                    confirm($tbl_cost);
+                    $row_cost = $tbl_cost->fetch_object();
+
+                    $select = query("SELECT sum(total) as total , sum(subtotal) as stotal,sum(discount) as discount from tbl_invoice where order_date between '$date_1' AND '$date_2'");
+                    confirm($select);
+                    $row = $select->fetch_object();
+
+                    $net_total = $row->total;
+
+                    $stotal = $row->stotal;
+
+                    $discount = $row->discount;
+
+                    $cost = $row_cost->total_cost;
+
+                    $total_cost = $stotal - $cost;
+
+
+
+                    ?>
+
+                <div class="row">
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix visible-sm-block"></div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-green"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Sub Total</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo number_format($stotal); ?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-aqua"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Discount</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo $discount;?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-yellow"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total-Discount</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo number_format($net_total); ?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">សរុបប្រាក់ចំណាយ</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo number_format($cost); ?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-blue"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">សរុបដកប្រាក់ចំណាយ</span>
+                                    <span class="info-box-number">
+                                        <h2><?php echo number_format($total_cost); ?></h2>
+                                    </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
 
 
                 <table id="salesreporttable" class="table table-striped">
@@ -113,6 +219,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                         <tr>
                             <th>N.0</th>
                             <th>Invoice ID</th>
+                            <th>Customer Name</th>
                             <th>Product Namme</th>
                             <th>price</th>
                             <th>Qty</th>
@@ -129,22 +236,30 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                         $no = 1;
                         while ($row = $select->fetch_object()) {
                             $total = $row->price * $row->qty;
+                            $invoice_id = $row->invoice_id;
+                            $select2 = query("SELECT * from tbl_invoice where order_date between '$date_1' AND '$date_2' AND invoice_id = '$invoice_id'");
+                            confirm($select2);
+                            while ($rowin = $select2->fetch_object()) {
+                                $customer_name = $rowin->customer_name;
+                            }
                             echo '
                                 <tr>
-                                <td>' . $no . '</td>
-                                <td>' . $row->invoice_id . '</td>
+                                <td>' . $no . '</td>                               
+                                <td>' . $invoice_id . '</td>
+                                <td>' . $customer_name . '</td>
                                 <td>' . show_productname($row->product_id) . '</td>
-                                <td>'. number_format($row->price) . ' <b style="font-size: 14px;">&#x17DB</b></td>        
+                                <td>' . number_format($row->price) . ' <b style="font-size: 14px;">&#x17DB</b></td>        
                                 <td>' . $row->qty . '</td>                 
                                 <td><span class="label label-danger">' . number_format($total) . ' <b style="font-size: 14px;">&#x17DB</b></span></td>                 
-                                <td>' . date('d-m-Y', strtotime($row->order_date)) . '</td>   
+                                <td>' . date('d-m-Y', strtotime($row->order_date)) . '</td> 
                                 ';
                             $totall += $total;
                             $no++;
                         }
+
                         echo
                         '<tr>
-                        <td colspan="4"></td>
+                        <td colspan="5"></td>
                         <th>សរុប</th>
                         <th>' . number_format($totall) . ' <b style="font-size: 16px;">&#x17DB </b></th>
                         </tr>

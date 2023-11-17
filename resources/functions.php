@@ -81,16 +81,20 @@ function login_user()
             $query2 = query("SELECT * from tbl_user where useremail='$useremail' AND password='$password' and role ='User'");
             confirm($query2);
             if (mysqli_num_rows($query2) == 0) {
-                set_message('<script type="text/javascript">
-                jQuery(function validation(){
-                swal({
-                  title: "EMAIL OR PASSWORD IS ERONG!",
-                  text: "Details Not Matched",
-                  icon: "error",
-                  button: "Ok",
+                set_message(" <script>
+                $(function() {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'អ៊ីមែល ឬពាក្យសម្ងាត់ខុស ឬវាលគឺទទេ!'
+                    })
                 });
-              });
-              </script>');
+              </script>");
                 redirect("");
             } else {
                 $row =  $query2->fetch_assoc();
@@ -99,16 +103,20 @@ function login_user()
                 $_SESSION['useremail'] = $row['useremail'];
                 $_SESSION['role'] = $row['role'];
 
-                echo '<script type="text/javascript">
-                jQuery(function validation(){
-                swal({
-                  title: "Good job! ' . $_SESSION['username'] . '",
-                  text: "Details Matched",
-                  icon: "success",
-                  button: "Loading......",
+                set_message(" <script>
+                $(function() {
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Login success By User'
+                    })
                 });
-              });
-              </script>';
+              </script>");
 
                 header('refresh:2;user');
             }
@@ -119,17 +127,20 @@ function login_user()
             $_SESSION['useremail'] = $row['useremail'];
             $_SESSION['role'] = $row['role'];
 
-            set_message('<script type="text/javascript">
-          jQuery(function validation(){
-            swal({
-              title: "Good job! ' . $_SESSION['username'] . '",
-              text: "Details Matched",
-              icon: "success",
-              button: "Loading......",
+            set_message(" <script>
+            $(function() {
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Login success By Admin'
+                })
             });
-          });
-          </script>');
-
+          </script>");
             header('refresh:1;admin');
         }
     }
@@ -207,35 +218,31 @@ function display_users()
         $password = $row['password'];
 
         $user = <<<DELIMETER
-
-        <tr>
-        <td>{$id}</td>
-        <td>{$username} </td>
-        <td><img width='60' src="../imguser/{$img}"></td>
-        <td><a class="btn btn-danger" href="../../resources/templates/back/delete_user.php?id={$row['id']}" ><span class="glyphicon glyphicon-trash"></span></a></td>
-        <td><a class="btn btn-primary" href="itemth?edit_user&id={$row['id']}" ><span class="glyphicon glyphicon-edit"></span></a></td>
-        
-        </tr>
-
-        <script>
-        $('.btn-danger').on('click', function(e) {
-            e.preventDefault();
-            const href = $(this).attr('href')
-            Swal.fire({
-                text: "លុបអ្នកចូលប្រើប្រាស់!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.location.href = href;
-                }
-            })
-        })
-
-        </script>
+              <tr>
+              <td>{$id}</td>
+              <td>{$username} </td>
+              <td><img width='60' src="../imguser/{$img}"></td>
+              <td><a class="btn btn-danger" href="../../resources/templates/back/delete_user.php?id={$row['id']}" ><span class="glyphicon glyphicon-trash"></span></a></td>
+              <td><a class="btn btn-primary" href="itemth?edit_user&id={$row['id']}" ><span class="glyphicon glyphicon-edit"></span></a></td>
+              </tr>
+              <script>
+              $('.btn-danger').on('click', function(e) {
+                  e.preventDefault();
+                  const href = $(this).attr('href')
+                  Swal.fire({
+                      text: "លុបអ្នកចូលប្រើប្រាស់!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes, delete it!'
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          document.location.href = href;
+                      }
+                  })
+              })
+              </script>
 
         DELIMETER;
         echo $user;
@@ -464,92 +471,102 @@ function date_rank()
 
 function get_products()
 {
-    $select = query("SELECT * from tbl_invoice order by invoice_id desc");
+    $select = query("SELECT * from tbl_invoice ");
     confirm($select);
-    $query =  query("SELECT * FROM tbl_invoice");
-    confirm($query);
 
-    $rows = mysqli_num_rows($query);
+    if (mysqli_num_rows($select) < 1) {
 
-    if (isset($_GET['page'])) {
-
-        $page = preg_replace('#[^0-9]#', '', $_GET['page']);
+        echo "<h3 class='text-center'><ul class='pagination'>No oder</ul></h3>        
+        </tbody>
+        </table>
+        </div>
+        </div>";
     } else {
 
-        $page = 1;
-    }
+        $query =  query("SELECT * FROM tbl_invoice");
+        confirm($query);
 
-    $perPage = 20;
-    $lastPage = ceil($rows / $perPage);
-    if ($page < 1) {
-        $page = 1;
-    } elseif ($page > $lastPage) {
+        $rows = mysqli_num_rows($query);
 
-        $page = $lastPage;
-    }
+        if (isset($_GET['page'])) {
 
-    $middleNumbers = '';
-    $sub1 = $page - 1;
-    $sub2 = $page - 2;
-    $add1 = $page + 1;
-    $add2 = $page + 2;
+            $page = preg_replace('#[^0-9]#', '', $_GET['page']);
+        } else {
 
-    if ($page == 1) {
+            $page = 1;
+        }
 
-        $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
+        $perPage = 20;
+        $lastPage = ceil($rows / $perPage);
+        if ($page < 1) {
+            $page = 1;
+        } elseif ($page > $lastPage) {
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
-    } elseif ($page == $lastPage) {
+            $page = $lastPage;
+        }
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
+        $middleNumbers = '';
+        $sub1 = $page - 1;
+        $sub2 = $page - 2;
+        $add1 = $page + 1;
+        $add2 = $page + 2;
 
-        $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
-    } elseif ($page > 2 && $page < ($lastPage - 1)) {
+        if ($page == 1) {
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub2 . ' ">' . $sub2 . '</a></li>';
+            $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
+        } elseif ($page == $lastPage) {
 
-        $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
+            $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
+        } elseif ($page > 2 && $page < ($lastPage - 1)) {
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add2 . ' ">' . $add2 . '</a></li>';
-    } elseif ($page > 1 && $page < $lastPage) {
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub2 . ' ">' . $sub2 . '</a></li>';
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
 
-        $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
+            $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
 
-        $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
-    }
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
 
-    $limit = 'LIMIT ' . ($page - 1) * $perPage . ',' . $perPage;
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add2 . ' ">' . $add2 . '</a></li>';
+        } elseif ($page > 1 && $page < $lastPage) {
 
-    $query2 =  query("SELECT * FROM tbl_invoice order by invoice_id desc $limit ");
-    confirm($query2);
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $sub1 . ' ">' . $sub1 . '</a></li>';
 
-    $outputPagination = "";
+            $middleNumbers .= '<li class="page-item active"><a>' . $page . '</a></li>';
 
-    if ($page != 1) {
-        $prev = $page - 1;
-        $outputPagination .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $prev . ' ">Back</a></li>';
-    }
+            $middleNumbers .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $add1 . ' ">' . $add1 . '</a></li>';
+        }
 
-    $outputPagination .= $middleNumbers;
+        $limit = 'LIMIT ' . ($page - 1) * $perPage . ',' . $perPage;
 
-    if ($page != $lastPage) {
-        $next = $page + 1;
-        $outputPagination .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $next . ' ">Next</a></li>';
-    }
+        $query2 =  query("SELECT * FROM tbl_invoice order by invoice_id desc $limit ");
+        confirm($query2);
+
+        $outputPagination = "";
+
+        if ($page != 1) {
+            $prev = $page - 1;
+            $outputPagination .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $prev . ' ">Back</a></li>';
+        }
+
+        $outputPagination .= $middleNumbers;
+
+        if ($page != $lastPage) {
+            $next = $page + 1;
+            $outputPagination .= '<li class="page-item "><a class="page-link" href="orderlist?page=' . $next . ' ">Next</a></li>';
+        }
 
 
 
-    $product = "";
-    $no = 1;
-    while ($row = $query2->fetch_object()) {
+        $product = "";
+        $no = 1;
+        while ($row = $query2->fetch_object()) {
 
-        $product .= '
+            $product .= '
         <tr>
         <td>' . $no . '</td>
         <td>' . $row->invoice_id . '</td>
@@ -559,16 +576,16 @@ function get_products()
         <td>' . $row->paid . '</td>
         <td>' . $row->due . '</td>
         ';
-        if ($row->payment_type == "Cash") {
+            if ($row->payment_type == "Cash") {
 
-            $product .= '<td><span class="label label-primary">' . $row->payment_type . '</span></td>';
-        } elseif ($row->payment_type == "Card") {
-            $product .= '<td><span class="label label-warning">' . $row->payment_type . '</span></td>';
-        } else {
-            $product .= '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
-        }
+                $product .= '<td><span class="label label-primary">' . $row->payment_type . '</span></td>';
+            } elseif ($row->payment_type == "Card") {
+                $product .= '<td><span class="label label-warning">' . $row->payment_type . '</span></td>';
+            } else {
+                $product .= '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
+            }
 
-        $product .= '       
+            $product .= '       
         <td>' . $row->phone . '</td> 
         <td>
         <a href="invoice_80mm.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
@@ -577,17 +594,18 @@ function get_products()
         ' . show_delete($row->invoice_id) . '
 
         </tr>';
-        $no++;
-    }
+            $no++;
+        }
 
-    $product .= '                         
+        $product .= '                         
      </tbody>
      </table>
      </div>
      </div>';
 
-    echo $product;
-    echo "<div class='text-center'><ul class='pagination'>{$outputPagination}</ul></div>";
+        echo $product;
+        echo "<div class='text-center'><ul class='pagination'>{$outputPagination}</ul></div>";
+    }
 }
 
 
@@ -611,6 +629,15 @@ function show_name_category($catid)
     <option selected value="' . $row->catid . '">' . $row->category . '</option>
 ';
 }
+
+
+function show_name_category_inview($catid)
+{
+    $tblcategory = query("SELECT * from tbl_category where catid = '$catid'");
+    $row = $tblcategory->fetch_object();
+    return $row->category;
+}
+
 
 function show_productname($pid)
 {

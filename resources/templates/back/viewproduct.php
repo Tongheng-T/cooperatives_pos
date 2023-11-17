@@ -50,7 +50,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                     <center><p class="list-group-item list-group-item-success"><b>Product Detail</b></p></center>
                        <li class="list-group-item"><b>ID:</b><span class="badge">' . $row->pid . '</span></li>
                        <li class="list-group-item"><b>Product Name:</b> <span class="label label-info pull-right">' . $row->pname . '</span></li>
-                       <li class="list-group-item"><b>Category:</b> <span class="label label-primary pull-right">' . $row->pcategory . '</span></li>
+                       <li class="list-group-item"><b>Category:</b> <span class="label label-primary pull-right">' .show_name_category_inview($row->category_id)  . '</span></li>
                        <li class="list-group-item"><b>Purchase price:</b><span class="label label-warning pull-right">' . $row->purchaseprice    . '</span></li>
                        <li class="list-group-item"><b>Sale Price:</b> <span class="label label-warning pull-right">' . $row->saleprice . '</span></li>
 
