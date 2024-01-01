@@ -13,7 +13,7 @@ confirm($select);
 $row = $select->fetch_assoc();
 $id_db = $row['pid'];
 $productname_db = $row['pname'];
-$category_db = $row['pcategory'];
+$category_id_db = $row['category_id'];
 $purchseprice_db = $row['purchaseprice'];
 $saleprice_db = $row['saleprice'];
 $stock_db = $row['pstock'];
@@ -146,7 +146,7 @@ confirm($select);
 $row = $select->fetch_assoc();
 $id_db = $row['pid'];
 $productname_db = $row['pname'];
-$category_db = $row['category_id'];
+$category_id_db = $row['category_id'];
 $purchseprice_db = $row['purchaseprice'];
 $saleprice_db = $row['saleprice'];
 $stock_db = $row['pstock'];
@@ -203,7 +203,7 @@ $productimage_db = $row['pimage'];
                                 while ($row = $select->fetch_assoc()) {
                                     extract($row)
                                 ?>
-                                    <option value="<?php echo $row['catid'] ?>" <?php if ($row['catid'] == $category_db) { ?> selected="selected" <?php } ?>>
+                                    <option value="<?php echo $row['catid'] ?>" <?php if ($row['catid'] == $category_id_db) { ?> selected="selected" <?php } ?>>
 
                                         <?php echo show_categoryname($row['catid']); ?></option>
 

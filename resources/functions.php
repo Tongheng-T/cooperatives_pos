@@ -404,6 +404,18 @@ function fill_product()
     echo $output;
 }
 
+function fill_category()
+{
+    $output = '';
+    $select = query("SELECT * from tbl_category_cost order by id_cry_cost asc");
+    confirm($select);
+
+    foreach ($select as $row) {
+        $output .= '<option value="' . $row["id_cry_cost"] . '">' . $row["cost_category"] . '</option>';
+    }
+    echo $output;
+}
+
 function fill_productt($pid)
 {
     $output = '';
@@ -416,6 +428,22 @@ function fill_productt($pid)
             $output .= 'selected';
         }
         $output .= '>' . $row["pname"] . '</option>';
+    }
+    return $output;
+}
+
+function fill_category_edit($pid)
+{
+    $output = '';
+    $select = query("SELECT * from tbl_category_cost order by id_cry_cost asc");
+    confirm($select);
+
+    foreach ($select as $row) {
+        $output .= '<option value="' . $row["id_cry_cost"] . '"';
+        if ($pid == $row['id_cry_cost']) {
+            $output .= 'selected';
+        }
+        $output .= '>' . $row["cost_category"] . '</option>';
     }
     return $output;
 }
@@ -636,6 +664,12 @@ function show_name_category_inview($catid)
     $tblcategory = query("SELECT * from tbl_category where catid = '$catid'");
     $row = $tblcategory->fetch_object();
     return $row->category;
+}
+function show_name_category_inview_cos($catid)
+{
+    $tblcategory = query("SELECT * from tbl_category_cost where id_cry_cost = '$catid'");
+    $row = $tblcategory->fetch_object();
+    return $row->cost_category;
 }
 
 

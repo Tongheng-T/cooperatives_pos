@@ -49,6 +49,18 @@ body {
     padding: 2px;
 }
 
+.pagelis {
+    background: var(--white);
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: var(--pageShadow);
+}
+
+.pagelis[size="A4"] {
+    width: 32cm;
+    padding: 2px;
+}
 
 /* .bb {
     border-bottom: 3px solid var(--darkWhite);

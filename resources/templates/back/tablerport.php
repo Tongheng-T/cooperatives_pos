@@ -92,7 +92,7 @@ if(isset($_POST['date_1'])){
                     <br><br>
 
                     <?php
-                    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2'");
+                    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2' and category_id > 1");
                     confirm($tbl_cost);
                     $row_cost = $tbl_cost->fetch_object();
 
@@ -156,7 +156,7 @@ if(isset($_POST['date_1'])){
                                 <span class="info-box-icon bg-red"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">សរុបដកប្រាក់ចំណាយ</span>
+                                    <span class="info-box-text">ប្រាក់ចំណេញ</span>
                                     <span class="info-box-number">
                                         <h2><?php echo number_format($total_cost); ?></h2>
                                     </span>

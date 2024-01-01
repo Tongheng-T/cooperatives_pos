@@ -16,6 +16,7 @@ if (isset($_POST['btnsaveorder'])) {
   ////////////////////////////////////
   $arr_name_cost = $_POST['name_cost'];
   $arr_qty_cost = $_POST['qty_cost'];
+  $category_id = $_POST['category_id'];
 
   if (empty($arr_qty_cost)) {
     set_message('<script type="text/javascript">
@@ -32,7 +33,7 @@ if (isset($_POST['btnsaveorder'])) {
     // 2nd insert query for tbl_invoice_details
     for ($i = 0; $i < count($arr_name_cost); $i++) {
 
-      $insert = query("INSERT into tbl_cost(name_cost,qty_cost,cost_date)values('{$arr_name_cost[$i]}','{$arr_qty_cost[$i]}','{$order_date}')");
+      $insert = query("INSERT into tbl_cost(name_cost,qty_cost,cost_date,category_id)values('{$arr_name_cost[$i]}','{$arr_qty_cost[$i]}','{$order_date}','{$category_id[$i]}')");
 
       redirect("itemt?cost");
     }
@@ -96,6 +97,7 @@ if (isset($_POST['btnsaveorder'])) {
                 <tr>
                   <th>ចំណាយលើ</th>
                   <th>ចំនួនរៀល</th>
+                  <th>មុខរបរ</th>
                   <th>
                     <center><button type="button" name="add" class="btn btn-success btn-sm btnadd"> <span class="glyphicon glyphicon-plus"></span></button></center>
                   </th>
@@ -125,6 +127,7 @@ if (isset($_POST['btnsaveorder'])) {
                 <th>ចំណាយលើ</th>
                 <th>ចំនួនរៀល</th>
                 <th>Date</th>
+                <th>មុខរបរ</th>
                 <th>Edit</th>
                 <th>delete</th>
               </tr>
@@ -144,6 +147,7 @@ if (isset($_POST['btnsaveorder'])) {
                       <td>' . $row->name_cost . '</td>
                       <td>' . number_format($row->qty_cost) . ' ៛</td>
                       <td>' . date('d-m-Y', strtotime($row->cost_date)) . '</td>
+                      <td>' . show_name_category_inview_cos($row->category_id) . '</td>
                       <td><a href="itemt?edit_cost&id=' . $row->id_cost . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a></td>
                       <td><button id=' . $row->id_cost . ' class="btn btn-danger btndelete"> <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Order"></span></button></td>
                       </tr>
@@ -202,6 +206,7 @@ if (isset($_POST['btnsaveorder'])) {
       html += '<tr>';
       html += '<td> <input type="text" class="form-control name" name="name_cost[]"></td>';
       html += '<td> <input type="number" min="1" class="form-control qty" name="qty_cost[]" required></td>';
+      html += '<td> <select class="form-control category_id" name="category_id[]" style="width: 250px";><option value=""disabled selected>Select Option</option><?php fill_category(); ?></select></td>';
       html += '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove"> <span class="glyphicon glyphicon-remove"></span></button></center></td>';
       $('#producttable').append(html);
 

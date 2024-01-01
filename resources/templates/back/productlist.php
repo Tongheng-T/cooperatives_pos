@@ -10,66 +10,82 @@ display_message();
 ?>
 <!-- Content Wrapper. Contains page content -->
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Product List
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="activee">Here</li>
-        </ol>
-    </section>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Product List
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="activee">Here</li>
+    </ol>
+</section>
 
-    <!-- Main content -->
-    <section class="content container-fluid">
+<!-- Main content -->
+<section class="content container-fluid">
 
-        <!--------------------------
+    <!--------------------------
         | Your Page Content Here |
         -------------------------->
 
 
-        <div class="box box-warning">
-            <div class="box-header with-border">
-                <h3 class="box-title">Product List</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
+    <div class="box box-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title">Product List</h3>
+
+            <button class="btn btn-success" type="button" id="print_btn"><span class="fa fa-print"></span> Print</button>
+        </div>
+        
+        <!-- /.box-header -->
+        <!-- form start -->
 
 
-            <div class="box-body">
-                <div style="overflow-x:auto;">
-                    <table id="tablecategory" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Product name</th>
-                                <th>Category</th>
-                                <th>Purchaseprice</th>
-                                <th>Sale Price</th>
-                                <th>Stock</th>
-                                <th>Description</th>
-                                <th>Image</th>
-                                <th>View</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
+        <div class="box-body">
+            <div style="overflow-x:auto;">
+                <table id="tablecategory" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Product name</th>
+                            <th>Category</th>
+                            <th>Purchaseprice</th>
+                            <th>Sale Price</th>
+                            <th>Profit</th>
+                            <th>Stock</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            <?php
-                            $select = query("SELECT * from tbl_product order by pid desc");
-                            confirm($select);
-                            while ($row = $select->fetch_object()) {
+                    <tbody>
+                        <?php
+                        $select = query("SELECT * from tbl_product order by pid desc");
+                        confirm($select);
+                        $Sale_Price = 0;
+                        $purchaseprice = 0;
+                        $total_profit = 0;
+                        $sumstock = 0;
+                        $profit = 0;
+                        $echo = "";
+                        while ($row = $select->fetch_object()) {
+                            $profit = $row->saleprice - $row->purchaseprice;
+                            $Sale_Price += $row->saleprice;
+                            $total_profit += $profit;
+                            $purchaseprice += $row->purchaseprice;
+                            $sumstock += $row->pstock;
 
-                                echo '
+                            $echo .= '
                                 <tr>
                                 <td>' . $row->pid . '</td>
                                 <td>' . $row->pname . '</td>
                                 <td>' . show_categoryname($row->category_id) . '</td>
                                 <td>' . $row->purchaseprice . '</td>
                                 <td>' . $row->saleprice . '</td>
+                                <td>' . $profit . ' ៛</td>
                                 <td>' . $row->pstock . '</td>
                                 <td>' . $row->pdescription . '</td>
                                 <td><img src="../productimages/' . $row->pimage . '" class="img-rounded" width=50; height="50" alt="photo"></td>
@@ -86,29 +102,57 @@ display_message();
                                 </td>
                           
                                 </tr>
+
+                                
+
                                 ';
-                            }
+                        }
+
+                        $echo .= '<tr>
+                        <td colspan="2"></td>
+                        <th> Total</th>
+                        <th> ' . $purchaseprice . '</th>
+                        <th>' . $Sale_Price . '</th>
+                        <th>' . $total_profit . '</th>
+                        <th>' . $sumstock . '</th>
+                        </tr>';
 
 
-                            ?>
+                        echo $echo;
 
-                            <!-- <td>
+
+                        ?>
+
+                        <!-- <td>
                             <a href="deleteproduct.php?id=' . $row->pid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></a>
                         </td> -->
-                        </tbody>
+                    </tbody>
 
-                    </table>
-                </div>
+                </table>
             </div>
         </div>
+    </div>
 
 
-    </section>
-    <!-- /.content -->
+</section>
+<!-- /.content -->
 
 <!-- /.content-wrapper -->
 
 <script>
+
+$('#print_btn').click(function() {
+    var nw = window.open("print_productlist", "_blank", "height=500,width=800")
+    setTimeout(function() {
+      nw.print()
+      setTimeout(function() {
+        nw.close()
+      }, 500)
+    }, 1000)
+  })
+
+
+
     $(document).ready(function() {
         $('#tablecategory').DataTable({
             "order": [

@@ -252,6 +252,253 @@ if (isset($_POST['btndelete'])) {
         </div>
 
     </div>
+
+
+    <!-- ////////////////////////////////////////////////////////////////////// -->
+
+    <?php
+
+
+
+    if (isset($_POST['btnsave_cos'])) {
+        $category = $_POST['txtcategory_cos'];
+        if (empty($category)) {
+
+            $error = '<script type="text/javascript">
+    jQuery(function validation(){
+      swal({
+        title:"Feild is Empty!",
+        text: "Please Fill Feild!!",
+        icon: "error",
+        button: "Ok",
+      });
+    });
+    </script>';
+
+            set_message($error);
+        }
+        if (!isset($error)) {
+            $insert = query("insert into tbl_category_cost(cost_category) values('{$category}')");
+            confirm($insert);
+            if ($insert) {
+
+                set_message('<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title:"Added!", 
+            text: "Your Category expnses is Added!",
+            icon: "success",
+            button: "Ok",
+          });
+        });
+        </script>');
+            } else {
+                set_message('<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title:"Error!",
+            text: "Query Fail!",
+            icon: "error",
+            button: "Ok",
+          });
+        });
+        </script>');
+            }
+        }
+    }
+    //// btn_Update 
+
+    if (isset($_POST['btnupdate_cos'])) {
+        $category = $_POST['txtcategory_cos'];
+        $id = $_POST['txtid_cos'];
+        if (empty($category)) {
+
+            $errorupdate = '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title:"Error!",
+            text: "Feild is empty : please enter category expnses!",
+            icon: "error",
+            button: "Ok",
+          });
+        });
+        </script>';
+
+            echo $errorupdate;
+        }
+
+        if (!isset($errorupdate)) {
+            $update = query("UPDATE tbl_category_cost set cost_category='$category' where id_cry_cost=" . $id);
+            confirm($update);
+            if ($update) {
+
+                echo '<script type="text/javascript">
+            jQuery(function validation(){
+              swal({
+                title:"Updated!",
+                text: "Your Category expnses is Update!",
+                icon: "success",
+                button: "Ok",
+              });
+            });
+            </script>';
+            } else {
+                echo '<script type="text/javascript">
+            jQuery(function validation(){
+              swal({
+                title:"Error!",
+                text: "Your Category expnses is Not Update!",
+                icon: "error",
+                button: "Ok",
+              });
+            });
+            </script>';
+            }
+        }
+    }
+    //-------------------btn_Delete=======================================
+
+
+    if (isset($_POST['btndelete_cos'])) {
+        $delete = query("delete from tbl_category_cost where id_cry_cost=" . $_POST['btndelete_cos']);
+        confirm($delete);
+        if ($delete) {
+            echo '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title:"Deleted!",
+            text: "Your Category expnses is Deleted!",
+            icon: "success",
+            button: "Ok",
+          });
+        });
+        </script>';
+        } else {
+            echo '<script type="text/javascript">
+        jQuery(function validation(){
+          swal({
+            title:"Error!",
+            text: "Your Category expnses is Not Deleted!",
+            icon: "error",
+            button: "Ok",
+          });
+        });
+        </script>';
+        }
+    }
+
+
+
+
+
+    ?>
+
+
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">CATEGORY EXPENSES Form</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+
+        <div class="box-body">
+            <form role="form" action="" method="post">
+
+                <?php
+                if (isset($_POST['btnedit_cos'])) {
+                    $select_cos = query("select * from tbl_category_cost where id_cry_cost=" . $_POST['btnedit_cos']);
+                    confirm($select_cos);
+                    if ($select_cos) {
+                        $row = mysqli_fetch_object($select_cos);
+                        echo '
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="hidden" class="form-control"  value="' . $row->id_cry_cost . '" name="txtid_cos" placeholder="Enter Category">
+                            <input type="text" class="form-control" name="txtcategory_cos" value="' . $row->cost_category . '" placeholder="Enter Category">
+                         </div>
+                        <button type="submit" name="btnupdate_cos" class="btn btn-info">Update</button>
+                        </div>';
+                    }
+                } else {
+                    echo '
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" class="form-control" name="txtcategory_cos" placeholder="Enter Category">
+                        </div>
+                        <button type="submit" name="btnsave_cos" class="btn btn-success">Save</button>
+                    </div>';
+                }
+
+
+
+                ?>
+
+
+
+
+
+                <div class="col-md-8">
+
+                    <table id="tablecategory" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>CATEGORY EXPENSES</th>
+                                <th>EDIT</th>
+                                <th>DELETE</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php
+                            $select = query("select * from tbl_category_cost order by id_cry_cost desc");
+                            confirm($select);
+                            while ($row = mysqli_fetch_object($select)) {
+
+                                echo '
+                                <tr>
+                                <td>' . $row->id_cry_cost . '</td>
+                                <td>' . $row->cost_category . '</td>
+        
+                                ';
+                                if ($row->id_cry_cost == 1) {
+                                    echo '<td><button type="submit" value="' . $row->id_cry_cost . '" name="btnedit_cos" class="btn btn-success">Edit</button></td>
+                              
+                                 </tr>';
+                                } else {
+                                    echo '<td><button type="submit" value="' . $row->id_cry_cost . '" name="btnedit_cos" class="btn btn-success">Edit</button></td>
+                                 <td><button type="submit" value="' . $row->id_cry_cost . '" name="btndelete_cos" class="btn btn-danger">Delete</button></td>
+                                 </tr>';
+                                }
+                            }
+
+
+                            ?>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+
+            </form>
+
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+
+        </div>
+
+    </div>
+
+
+
     <?php display_message(); ?>
 
 </section>
@@ -269,4 +516,3 @@ if (isset($_POST['btndelete'])) {
         });
     });
 </script>
-
