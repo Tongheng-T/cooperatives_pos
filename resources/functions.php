@@ -103,6 +103,12 @@ function login_user()
                 $_SESSION['useremail'] = $row['useremail'];
                 $_SESSION['role'] = $row['role'];
 
+                $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+                $datee =  $date->format('Y-m-d H:i:s');
+                $time = time() + 10;
+                $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where userid=" . $_SESSION['userid']);
+                confirm($res);
+
                 set_message(" <script>
                 $(function() {
                     var Toast = Swal.mixin({
@@ -126,6 +132,12 @@ function login_user()
             $_SESSION['username'] = $row['username'];
             $_SESSION['useremail'] = $row['useremail'];
             $_SESSION['role'] = $row['role'];
+
+            $date = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+            $datee =  $date->format('Y-m-d H:i:s');
+            $time = time() + 10;
+            $res = query("UPDATE tbl_user set login_online='$time', last_login='$datee' where userid=" . $_SESSION['userid']);
+            confirm($res);
 
             set_message(" <script>
             $(function() {
@@ -667,9 +679,11 @@ function show_name_category_inview($catid)
 }
 function show_name_category_inview_cos($catid)
 {
-    $tblcategory = query("SELECT * from tbl_category_cost where id_cry_cost = '$catid'");
-    $row = $tblcategory->fetch_object();
-    return $row->cost_category;
+    if ($catid != 0) {
+        $tblcategory = query("SELECT * from tbl_category_cost where id_cry_cost = '$catid'");
+        $row = $tblcategory->fetch_object();
+        return $row->cost_category;
+    }
 }
 
 
