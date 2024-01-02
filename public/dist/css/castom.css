@@ -1,0 +1,37 @@
+@media (min-width: 1000px) {
+    .login-box {
+        width: 464px;
+    }
+}
+
+@font-face {
+    font-family: "tong";
+    src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
+}
+
+@font-face {
+    font-family: "KhmerOSMoulLight";
+    src: url(../../fone/KhmerOSMoulLight.ttf)format("truetype");
+}
+
+.login-logo .font_tong {
+    font-family: "tong";
+}
+
+.form-control {
+    height: 46px;
+}
+
+.select2-container--default .select2-selection--single,
+.select2-selection .select2-selection--single {
+    height: 46px;
+    padding: 14px 12px;
+}
+
+.active {
+    background: radial-gradient(#2c23ff, #e1060600);
+}
+
+.label {
+    font-size: 95%;
+}

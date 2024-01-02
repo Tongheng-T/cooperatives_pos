@@ -1,0 +1,10 @@
+@media print {
+    @page {
+        size: portrait;
+        margin: 0;
+    }
+}
+
+#print-btn {
+    display: none;
+}
