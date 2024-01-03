@@ -94,7 +94,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../dist/js/scripts.js"></script>
     <!-- auto sum -->
     <link rel="stylesheet" href="../dist/css/castom.css">
-    <link rel="stylesheet" href="../dist/css/casterm.css">
+    <link rel="stylesheet" href="../dist/css/castermm.css">
 
     <!-- Select2 -->
     <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
