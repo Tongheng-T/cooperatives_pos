@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../dist/css/print80mm.css">
+    <link rel="stylesheet" href="../dist/css/print80m.css">
 
     <title>RECEIPT : <?php show_customer_name(); ?></title>
 </head>
