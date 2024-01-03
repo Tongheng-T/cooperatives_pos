@@ -121,6 +121,9 @@ function show_customer_name()
 
         <b>Importan Notice:</b> <br>
         <p>No item will be replaced or refunded if you don have the invoice with you. </p>
+<br>
+        <p class="oder">អ្នកទិញ: </p>
+        <p class="sel">អ្នកលក់: </p>
     </div>
 
     <script>

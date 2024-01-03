@@ -96,13 +96,14 @@ if(isset($_POST['date_1'])){
                     confirm($tbl_cost);
                     $row_cost = $tbl_cost->fetch_object();
 
-                    $select = query("SELECT sum(total) as total , sum(subtotal) as stotal,count(invoice_id) as invoice from tbl_invoice where order_date between '$date_1' AND '$date_2'");
+                    $select = query("SELECT sum(total) as total , sum(subtotal) as stotal,count(invoice_id) as invoice ,sum(discount) as ddiscount from tbl_invoice where order_date between '$date_1' AND '$date_2'");
                     confirm($select);
                     $row = $select->fetch_object();
 
                     $net_total = $row->total;
 
                     $stotal = $row->stotal;
+                    $to_ddiscount = $row->ddiscount;
 
                     $invoice = $row->invoice;
 
@@ -171,9 +172,9 @@ if(isset($_POST['date_1'])){
                                 <span class="info-box-icon bg-yellow"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Net Total</span>
+                                    <span class="info-box-text">Discoun</span>
                                     <span class="info-box-number">
-                                        <h2><?php echo number_format($net_total); ?></h2>
+                                        <h2><?php echo number_format($to_ddiscount); ?></h2>
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->

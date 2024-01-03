@@ -700,3 +700,263 @@ function show_categoryname($pid)
     $row = $tbl_product->fetch_object();
     return $row->category;
 }
+
+
+function registration()
+{
+    if (isset($_POST['btnsave'])) {
+
+        $username = $_POST['txtname'];
+        $useremail = $_POST['txtemail'];
+        $userpassword = $_POST['txtpassword'];
+        $userrole = $_POST['txtselect_option'];
+
+        //Image Code or File Code Start Here..
+        $f_name        = $_FILES['file']['name'];
+        $image_temp_location         = $_FILES['file']['tmp_name'];
+        $f_size        = $_FILES['file']['size'];
+        $f_extension   = explode('.', $f_name);
+        $f_extension   = strtolower(end($f_extension));
+        $f_newfile     = uniqid() . '.' . $f_extension;
+
+        if (!empty($f_name)) {
+            // move_uploaded_file($image_temp_location, "../resources/images/userpic/" . $user_photo);
+            move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $f_newfile);
+            $image = $f_newfile;
+        } else {
+            $image = 'user.png';
+        }
+
+
+        if (isset($_POST['txtemail'])) {
+
+            $select = query("SELECT useremail from tbl_user where useremail='$useremail'");
+            confirm($select);
+
+
+            if (mysqli_num_rows($select) > 0) {
+                set_message('<script type="text/javascript">
+            jQuery(function validation(){
+              swal({
+                title:"Warning!",
+                text: "Email Already Exist : Please try from diffrent Email !",
+                icon: "warning",
+                button: "Ok",
+              });
+            });
+            </script>');
+                redirect('itemt?registration');
+            } else {
+
+                $insert = query("INSERT into tbl_user (username,useremail,password,role,img) values('{$username}','{$useremail}','{$userpassword}','{$userrole}','{$image}')");
+                confirm($insert);
+                if ($insert) {
+
+                    set_message(' <script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                      title:"Good Job!", 
+                      text: "Insert successfully the user into the database",
+                      icon: "success",
+                      button: "Ok",
+                      });
+                    });
+                     </script>');
+                    redirect('itemt?registration');
+                } else {
+                    set_message(' <script type="text/javascript">
+                    jQuery(function validation(){
+                      Swal({
+                     title:"error", 
+                      text: "Error inserting the user into the database"
+                      icon: "error",
+                      button: "Ok",
+                      });
+                    });
+                     </script>');
+                    redirect('itemt?registration');
+                }
+            }
+        }
+    }
+
+
+
+
+
+    if (isset($_POST['btnupdate'])) {
+
+        $username = $_POST['txtname'];
+        $useremail = $_POST['txtemail'];
+        $userpassword = $_POST['txtpassword'];
+        $userrole = $_POST['txtselect_option'];
+        $id = $_POST['btnupdate'];
+        $user_photo = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+
+        $select_img = query("SELECT img from tbl_user where userid = $id");
+        confirm($select_img);
+        $row = $select_img->fetch_assoc();
+
+
+        if (!empty($user_photo)) {
+            move_uploaded_file($image_temp_location,  UPLOAD_DIRECTORY_UDER . DS . $user_photo);
+            $dbimage = $row['img'];
+            if($dbimage != 'user.png'){
+                $image = $user_photo;
+                unlink("../resources/userpic/$dbimage");
+            }
+               
+            
+        } else {
+            $image = $row['img'];
+        }
+
+
+        if (isset($_POST['txtemail'])) {
+
+            $select = query("SELECT useremail ,userid from tbl_user where useremail='$useremail' and userid = $id");
+            confirm($select);
+
+
+            if (mysqli_num_rows($select) == 0) {
+                set_message(' <script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title:"warning", 
+                  text: "Email already exists. Create Account From New Email",
+                  icon: "warning",
+                  button: "Ok",
+                });
+                });
+               </script>');
+                redirect('itemt?registration');
+            } else {
+
+                $insert = query("UPDATE tbl_user set username='$username' , useremail='$useremail', useremail='$useremail', password='$userpassword', img='$image' , role='$userrole' where userid='$id'");
+                confirm($insert);
+                if ($insert) {
+
+                    set_message(' <script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                     title:"success", 
+                     text: "UPDATE successfully the user into the database",
+                      icon: "success",
+                      });
+                    });
+                     </script>');
+                    redirect('itemt?registration');
+                } else {
+                    set_message('<script type="text/javascript">
+                    jQuery(function validation(){
+                      swal({
+                        title:"error", 
+                        text: "Error inserting the user into the database",
+                      icon: "error",
+                      button: "Ok",
+                      });
+                    });
+                     </script>');
+                    redirect('itemt?registration');
+                }
+            }
+        }
+    }
+}
+
+
+
+function edit_registration()
+{
+    if (isset($_POST['btnedit'])) {
+
+        $select = query("SELECT * from tbl_user where userid =" . $_POST['btnedit']);
+        confirm($select);
+
+        if ($select) {
+            $row = $select->fetch_object();
+
+            echo ' <div class="col-md-4">
+               <form action="" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label>រូបថត រូបភាព</label>
+                <input type="file" class="input-group" name="file" onchange="displayImage(this)" id="profilImg">
+                <img  src="../resources/userpic/' . $row->img . ' " onclick="triggerClick()" id="profiledisplay">
+               </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Name" name="txtname" value="' . $row->username . '" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" placeholder="Enter email" name="txtemail" value="' . $row->useremail . '" required>
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <div class="input-group">
+                    <input type="password" placeholder="Password" id="pwd" class="form-control" placeholder="Password" name="txtpassword" value="' . $row->password . '"  required>
+                    <button type="button" class="input-group-text" id="eye">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                   </button>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <select class="form-control" name="txtselect_option" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option selected>' . $row->role . '</option>
+                        <option>Admin</option>
+                        <option>User</option>
+
+                    </select>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info" value="' . $row->userid . '" name="btnupdate">Update</button>
+                </div>
+            </form>
+
+        </div>';
+        }
+    } else {
+        echo '<div class="col-md-4">
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+               <label>រូបថត រូបភាព</label>
+               <input type="file" class="input-group" name="file" onchange="displayImage(this)" id="profilImg">
+               <img  src="../resources/userpic/display.jpg " onclick="triggerClick()" id="profiledisplay">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" class="form-control" placeholder="Enter Name" name="txtname" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" placeholder="Enter email" name="txtemail" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" placeholder="Password" name="txtpassword" required>
+            </div>
+
+            <div class="form-group">
+                <label>Role</label>
+                <select class="form-control" name="txtselect_option" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option>Admin</option>
+                    <option>User</option>
+
+                </select>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" name="btnsave">Save</button>
+            </div>
+        </form>
+
+    </div>';
+    }
+}

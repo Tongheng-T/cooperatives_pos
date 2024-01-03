@@ -96,8 +96,16 @@ table tr {
 
 @media print {
     @page {
-        size: 90mm 200mm;
+        size: 90mm 250mm;
         margin: 0;
         /* auto is the initial value */
     }
+}
+
+.oder{
+    float: left;
+}
+.sel{
+    margin-left: 30%;
+    text-align: center;
 }

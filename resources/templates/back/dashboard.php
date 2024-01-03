@@ -5,6 +5,12 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   header("Location: ../");
 }
 
+$change = query("SELECT * from tbl_change");
+confirm($change);
+$row_exchange = $change->fetch_object();
+$exchange = $row_exchange->exchange;
+$usd_or_real = $row_exchange->usd_or_real;
+
 
 $query = query("SELECT sum(total) as t , count(invoice_id) as inv from tbl_invoice");
 confirm($query);
@@ -12,7 +18,16 @@ $row =  $query->fetch_object();
 
 $total_order = $row->inv;
 $net_total = $row->t;
+if ($usd_or_real == "usd") {
+  $total_revn = $net_total / $exchange;
+  $USD_usd = " $";
+  $USD_txt ="USD";
+}else{
+  $total_revn = $net_total;
+  $USD_usd = " ៛";
+  $USD_txt ="KHR";
 
+}
 
 
 $query = query("SELECT order_date, sum(total) as subtotal  from tbl_invoice group by order_date LIMIT 30");
@@ -76,9 +91,9 @@ while ($row = fetch_array($query)) {
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3><?php echo number_format($net_total); ?> <i class="fa" style="font-size: 40px;">៛</i> <sup style="font-size: 20px"></sup></h3>
+              <h3><?php echo number_format($total_revn) . $USD_usd; ?> </h3>
 
-              <p>Total Revenue</p>
+              <p>Total Revenue(<?php echo $USD_txt?>)</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>

@@ -4,8 +4,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     header("Location: ../");
 }
 display_message();
-
-if (isset($_POST['btnsave'])) {
+registration();
+if (isset($_POST['btnsaved'])) {
     $username = $_POST['txtname'];
     $useremail = $_POST['txtemail'];
     $password = $_POST['txtpassword'];
@@ -58,121 +58,122 @@ if (isset($_POST['btnsave'])) {
     }
 }
 
-
-
 ?>
 <!-- Content Wrapper. Contains page content -->
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Registration
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="activee">Here</li>
-        </ol>
-    </section>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Registration
+        <small></small>
+    </h1>
 
-    <!-- Main content -->
-    <section class="content container-fluid">
+</section>
 
-        <!--------------------------
+<!-- Main content -->
+<section class="content container-fluid">
+
+    <!--------------------------
         | Your Page Content Here |
         -------------------------->
 
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3 class="box-title">Registration Form</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" action="" method="post">
-                <div class="box-body">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Name</label>
-                            <input type="text" class="form-control" name="txtname" placeholder="Enter Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" name="txtemail" placeholder="Enter email" required>
-                        </div>
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Registration Form</h3>
+        </div>
+        <div class="box-body">
+            <?php edit_registration(); ?>
 
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" name="txtpassword" placeholder="Password" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Role</label>
-                            <select class="form-control" name="txtselect_option" required>
-                                <option value="" disabled selected>Select role</option>
-                                <option>User</option>
-                                <option>Admin</option>
-                            </select>
-                        </div>
-                        <button type="submit" name="btnsave" class="btn btn-info">Save</button>
-                    </div>
+            <div class="col-md-8">
+                <form action="" method="post">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th>PASSWORD</th>
+                                <th>ROLE</th>
+                                <th>DELETE</th>
+                            </tr>
+                        </thead>
 
-                    <div class="col-md-8">
+                        <tbody>
+                            <?php
+                            $select = query("SELECT * from tbl_user order by userid ASC");
+                            confirm($select);
 
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>NAME</th>
-                                    <th>EMAIL</th>
-                                    <th>PASSWORD</th>
-                                    <th>ROLE</th>
-                                    <th>DELETE</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <?php
-                                $select = query("SELECT * from tbl_user order by userid desc");
-                                confirm($select);
-                                while ($row = $select->fetch_object()) {
-
-                                    echo '
-                                <tr>
-                                <td>' . $row->userid . '</td>
-                                <td>' . $row->username . '</td>
-                                <td>' . $row->useremail . '</td>
-                                <td>' . $row->password . '</td>
-                                <td>' . $row->role . '</td>
-                                <td>
-                                <a href="../resources/templates/back/delete.php?id=' . $row->userid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" title="delete"></span></a>
-                                </td>
-                                </tr>
-                                ';
+                            $admin = 'Admin';
+                            $user = 'User';
+                            while ($row = $select->fetch_object()) {
+                                if ($row->role == $admin or $row->role == $user) {
+                                    $password = "********";
+                                } else {
+                                    $password = $row->password;
                                 }
+                                if ($row->useremail == "bibben5016@gmail.com") {
+                                    $delete = '';
+                                } else {
+                                    $delete = '<a href="../resources/templates/back/delete.php?id=' . $row->userid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" title="delete"></span></a>';
+                                }
+                                echo '
+                                   <tr>
+                                   <td>' . $row->userid . '</td>
+                                   <td> <img height="50" src="../resources/userpic/' . $row->img . '" alt=""> ' . $row->username . '</td>
+                                   <td>' . $row->useremail . '</td>
+                                   <td>' . $password . '</td>  
+                                   <td>' . $row->role . '</td>
+                                   <td><button type="submit" class="btn btn-primary" value="' . $row->userid . '" name="btnedit">Edit</button></td>
+                                   <td>' . $delete . '</td>
+                                   </tr>';
+                            }
+                            ?>
+                        </tbody>
 
-
-                                ?>
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-
-
-
-
-
-                </div>
-                <!-- /.box-body -->
-
-                <div class="box-footer">
-
-                </div>
-            </form>
+                    </table>
+                </form>
+            </div>
         </div>
 
-    </section>
-    <!-- /.content -->
+
+
+
+
+
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+
+    </div>
+
+
+
+</section>
+<!-- /.content -->
 
 <!-- /.content-wrapper -->
 
+<script>
+    function show() {
+        var p = document.getElementById('pwd');
+        p.setAttribute('type', 'text');
+    }
+
+    function hide() {
+        var p = document.getElementById('pwd');
+        p.setAttribute('type', 'password');
+    }
+
+    var pwShown = 0;
+
+    document.getElementById("eye").addEventListener("click", function() {
+        if (pwShown == 0) {
+            pwShown = 1;
+            show();
+        } else {
+            pwShown = 0;
+            hide();
+        }
+    }, false);
+</script>

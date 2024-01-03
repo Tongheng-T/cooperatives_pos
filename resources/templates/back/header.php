@@ -91,8 +91,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- <script src="../dist/js/jquery.js"></script> -->
     <script src="../dist/js/jautocalc.min.js"></script>
+    <script src="../dist/js/scripts.js"></script>
     <!-- auto sum -->
     <link rel="stylesheet" href="../dist/css/castom.css">
+    <link rel="stylesheet" href="../dist/css/casterm.css">
 
     <!-- Select2 -->
     <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
@@ -250,6 +252,7 @@ desired effect
                         </ul>
                     </li>
                     <li><a href="itemt?cost" class=" <?php actr("cost");?>"><i class="fa fa-usd"></i> <span>ចំណាយ</span></a></li>
+                    <li><a href="itemt?exchange" class=" <?php actr("exchange");?>"><i class="fa fa-cog"></i> <span>USD OR REAL</span></a></li>
                     <li><a href="itemt?registration" class=" <?php actr("registration");?>"><i class="fa fa-registered"></i> <span>Registration</span></a></li>
 
 

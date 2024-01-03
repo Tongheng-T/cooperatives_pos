@@ -95,6 +95,11 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/reportbycategory.php");
     }
+
+    if (isset($_GET['exchange'])) {
+
+        include(TEMPLATE_BACK . "/exchange.php");
+    }
     ?>
 
 
