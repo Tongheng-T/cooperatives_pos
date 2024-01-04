@@ -4,7 +4,20 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "") {
   header("Location: ../");
 }
 
+if (isset($_POST['date_1'])) {
+  $_SESSION['date'] = $_POST['date_1'];
+  $date_1 = $_POST['date_1'];
+  $date_2 = $_POST['date_2'];
 
+  $_SESSION['date_1'] = $date_1;
+  $_SESSION['date_2'] = $date_2;
+} else {
+  $date_1 = date('Y-m-01');
+  $date_2 = date("Y-m-d");
+  $_SESSION['date'] = $date_1;
+  $_SESSION['date_1'] = $date_1;
+  $_SESSION['date_2'] = $date_2;
+}
 
 // if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 //     header('location:index.php');
@@ -49,10 +62,7 @@ if (isset($_POST['btnsaveorder'])) {
     ការចំណាយ
     <small></small>
   </h1>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-    <li class="activee">Here</li>
-  </ol>
+
 </section>
 
 <!-- Main content -->
@@ -115,33 +125,77 @@ if (isset($_POST['btnsaveorder'])) {
 
       </div>
       <hr>
+
+  </div>
+
+  <div class="box box-warning">
+ 
+      <div class="box-header with-border">
+        <!-- <h3 class="box-title">From : <?php echo $date_1 ?> -- To : <?php echo $date_2 ?></h3> -->
+        <h3 class="box-title">From : <?php echo date('d-m-Y', strtotime($date_1)) ?> -- To :
+          <?php echo date('d-m-Y', strtotime($date_2)) ?></h3>
+      </div>
+      <div class="box-body">
+
+        <div class="row">
+          <div class="col-md-5">
+            <div class="input-group date">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input type="text" class="form-control pull-right" id="datepicker1" name="date_1" value="<?php echo $date_1; ?>" data-date-format="yyyy-mm-dd">
+            </div>
+
+          </div>
+          <div class="col-md-5">
+            <div class="input-group date">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input type="text" class="form-control pull-right" id="datepicker2" name="date_2" value="<?php echo $date_2; ?>" data-date-format="yyyy-mm-dd">
+            </div>
+
+          </div>
+          <div class="col-md-2">
+            <div align="left">
+              <input type="submit" name="btndatefilter" value="Filter By Dater" class="btn btn-success">
+            </div><br>
+
+            <button class="btn btn-primary" type="button" id="print_btn"><span class="fa fa-print"></span> Print</button>
+          </div>
+
+        </div>
+
     </form>
 
-    <div class="box-body">
-      <div class="col-md-12">
-        <div style="overflow-x:auto;">
-          <table id="salesreporttable" class="table table-striped">
-            <thead>
-              <tr>
-                <th>N.0</th>
-                <th>ចំណាយលើ</th>
-                <th>ចំនួនរៀល</th>
-                <th>Date</th>
-                <th>មុខរបរ</th>
-                <th>Edit</th>
-                <th>delete</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              <?php
-              $select = query("SELECT * from tbl_cost");
-              confirm($select);
-              $no = 1;
-              $total = 0;
-              while ($row = $select->fetch_object()) {
 
-                echo '
+
+
+    <div class="col-md-12">
+      <div style="overflow-x:auto;">
+        <table id="salesreporttablee" class="table table-striped">
+          <thead>
+            <tr>
+              <th>N.0</th>
+              <th>ចំណាយលើ</th>
+              <th>ចំនួនរៀល</th>
+              <th>Date</th>
+              <th>មុខរបរ</th>
+              <th>Edit</th>
+              <th>delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <?php
+            $select = query("SELECT * from tbl_cost where cost_date between '$date_1' AND '$date_2'");
+            confirm($select);
+            $no = 1;
+            $total = 0;
+            while ($row = $select->fetch_object()) {
+
+              echo '
                       <tr>
                       <td>' . $no . '</td>
                       <td>' . $row->name_cost . '</td>
@@ -153,11 +207,11 @@ if (isset($_POST['btnsaveorder'])) {
                       </tr>
                       
                       ';
-                $no++;
-                $total += $row->qty_cost;
-              }
+              $no++;
+              $total += $row->qty_cost;
+            }
 
-              echo ' 
+            echo ' 
               <tr>
               <td colspan="1"></td>
               <td>សរុប</td>
@@ -165,14 +219,14 @@ if (isset($_POST['btnsaveorder'])) {
               </tr>';
 
 
-              ?>
+            ?>
 
-            </tbody>
+          </tbody>
 
-          </table>
-        </div>
+        </table>
       </div>
     </div>
+
   </div>
 </section>
 <!-- /.content -->
@@ -192,6 +246,15 @@ if (isset($_POST['btnsaveorder'])) {
     autoclose: true
   });
 
+  $('#print_btn').click(function() {
+    var nw = window.open("print2cost", "_blank", "height=500,width=800")
+    setTimeout(function() {
+      nw.print()
+      setTimeout(function() {
+        nw.close()
+      }, 500)
+    }, 1000)
+  })
 
   //Red color scheme for iCheck
   // $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
@@ -206,7 +269,7 @@ if (isset($_POST['btnsaveorder'])) {
       html += '<tr>';
       html += '<td> <input type="text" class="form-control name" name="name_cost[]"></td>';
       html += '<td> <input type="number" min="1" class="form-control qty" name="qty_cost[]" required></td>';
-      html += '<td> <select class="form-control category_id" name="category_id[]" style="width: 250px";><option value=""disabled selected>Select Option</option><?php fill_category(); ?></select></td>';
+      html += '<td> <select class="form-control category_id" name="category_id[]" required style="width: 250px";><option value=""disabled selected>Select Option</option><?php fill_category(); ?></select></td>';
       html += '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove"> <span class="glyphicon glyphicon-remove"></span></button></center></td>';
       $('#producttable').append(html);
 
@@ -271,7 +334,7 @@ if (isset($_POST['btnsaveorder'])) {
               button: "Ok",
             });
           } else {
-            swal("Your Order is safe!");
+            swal("Your Data is safe!");
           }
         });
 
@@ -280,4 +343,22 @@ if (isset($_POST['btnsaveorder'])) {
 
     });
   });
+</script>
+
+<script>
+    //Date picker
+    $('#datepicker1').datepicker({
+        autoclose: true
+    });
+
+    //Date picker
+    $('#datepicker2').datepicker({
+        autoclose: true
+    });
+
+    $('#salesreporttable').DataTable({
+        "order": [
+            [0, "desc"]
+        ]
+    });
 </script>

@@ -96,7 +96,7 @@ table tr {
 
 @media print {
     @page {
-        size: 90mm 250mm;
+        size: 90mm ;
         margin: 0;
         /* auto is the initial value */
     }

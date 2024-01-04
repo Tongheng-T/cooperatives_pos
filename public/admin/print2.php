@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- <xsl:attribute name="page-height">200cm</xsl:attribute> -->
+    <!-- <xsl:attribute name="page-height">200cm</xsl:attribute> -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Font Awesome -->
@@ -51,7 +51,7 @@
                             <th>ឈ្មោះ​ទំនិញ</th>
                             <th>ចំនួន</th>
                             <th>តម្លៃឯកតា</th>
-                            <th>តម្លៃសរុប</th>      
+                            <th>តម្លៃសរុប</th>
                             <th>Discount</th>
                             <th>សរុប</th>
                             <th>លេខទូរស័ព្</th>
@@ -66,6 +66,9 @@
                         $oupu = "";
                         $totall = 0;
                         $no = 1;
+                        $total_sub_f = 0;
+                        $total_discount = 0;
+                        $total_qty = 0;
                         while ($row = $select->fetch_object()) {
                             $id_invoice = $row->invoice_id;
                             $row_invoice_detaice = query("SELECT * from tbl_invoice_details where invoice_id ='$id_invoice'");
@@ -84,36 +87,48 @@
                                 <td>' . $product_name . '</td>
                                 <td>' . number_format($row_detaice->qty) . '</td>
                                 <td>' . number_format($row_detaice->price) . '</td>
-                                <td>' . number_format($row_detaice->price*$row_detaice->qty) . '</td>
+                                <td>' . number_format($row_detaice->price * $row_detaice->qty) . '</td>
                                 
                                 ';
-                               
-                                
+                                $total_sub = $row_detaice->price * $row_detaice->qty;
+                                $subtotal_qty = $row_detaice->qty;
+
+                                $total_sub_f += $total_sub;
+
+                                $total_qty += $subtotal_qty;
                             }
-                             $oupu .= '
+                            $oupu .= '
 
                                 <td>' . number_format($row->discount) . '</td>
                                 <th><span class="label label-danger">' . number_format($row->total) . ' <b style="font-size: 16px;">&#x17DB </b></span></th>
-                                <td>' .$row->phone . '</td>
+                                <td>' . $row->phone . '</td>
                                 <td>' . date('d-m-Y', strtotime($row->order_date)) . '</td>
                             ';
 
-                                if ($row->payment_type == "Cash") {
+                            if ($row->payment_type == "Cash") {
 
-                                    $oupu .=  '<td><span class="label label-primary">' . $row->payment_type . '</span></td></tr>';
-                                } elseif ($row->payment_type == "Card") {
-                                    $oupu .=  '<td><span class="label label-warning">' . $row->payment_type . '</span></td></tr>';
-                                } else {
-                                    $oupu .=  '<td><span class="label label-info">' . $row->payment_type . '</span></td></tr>';
-                                }
+                                $oupu .=  '<td><span class="label label-primary">' . $row->payment_type . '</span></td></tr>';
+                            } elseif ($row->payment_type == "Card") {
+                                $oupu .=  '<td><span class="label label-warning">' . $row->payment_type . '</span></td></tr>';
+                            } else {
+                                $oupu .=  '<td><span class="label label-info">' . $row->payment_type . '</span></td></tr>';
+                            }
                             $no++;
                             $totall += $row->total;
+
+                            $total_discount += $row->discount;
+
                         }
 
                         $oupu .=
-                        '<tr>
-                        <td colspan="6"></td>
+                            '<tr>
+                        <td colspan="2"></td>
+                        
                         <th>សរុប</th>
+                        <th>' . $total_qty . '</th>
+                        <td colspan="1"></td>
+                        <th>' . number_format($total_sub_f) . ' <b style="font-size: 16px;">&#x17DB </b></th>
+                        <th>' . number_format($total_discount) . ' <b style="font-size: 16px;">&#x17DB </b></th>
                         <th>' . number_format($totall) . ' <b style="font-size: 16px;">&#x17DB </b></th>
                         </tr>
                          ';
@@ -128,7 +143,6 @@
 
             <script>
                 window.print();
-                
             </script>
 
 

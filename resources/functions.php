@@ -693,7 +693,12 @@ function show_productname($pid)
     $row = $tbl_product->fetch_object();
     return $row->pname;
 }
-
+function show_purchaseprice($pid)
+{
+    $tbl_product = query("SELECT * from tbl_product where pid ='$pid'");
+    $row = $tbl_product->fetch_object();
+    return $row->purchaseprice;
+}
 function show_categoryname($pid)
 {
     $tbl_product = query("SELECT * from tbl_category where catid ='$pid'");
