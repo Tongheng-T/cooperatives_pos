@@ -47,6 +47,42 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         $_SESSION['category_id'] = $category_id;
     }
 
+    error_reporting(0);
+    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2'and category_id > 1");
+    confirm($tbl_cost);
+    $row_cost = $tbl_cost->fetch_object();
+
+    $tbl_invoice_details = query("SELECT * from tbl_invoice_details where order_date between '$date_1' AND '$date_2' AND  category_id ='$category_id'");
+    confirm($tbl_invoice_details);
+
+    $no = 1;
+    $total = 0;
+    $stotal = 0;
+    $discount = 0;
+    while ($row = $tbl_invoice_details->fetch_object()) {
+        $invoice_id = $row->invoice_id;
+        $total_sel = $row->price * $row->qty;
+        $purchaseprice = show_purchaseprice($row->product_id);
+        $select2 = query("SELECT * from tbl_invoice where order_date between '$date_1' AND '$date_2' AND invoice_id = '$invoice_id'");
+        confirm($select2);
+        while ($rowin = $select2->fetch_object()) {
+            $discount += $rowin->discount;
+
+        }
+
+        $total += $purchaseprice;
+        $stotal += $total_sel;
+    }
+
+    // $net_total = $row->total;
+
+
+
+    $cost = $row_cost->total_cost;
+
+    $total_cost = $stotal - $cost - $total;
+
+    $total_jomnay = $cost;
     ?>
 
     <div class="box box-warning">
@@ -110,109 +146,88 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
                 </div><br>
 
-                <?php
-                    $tbl_cost = query("SELECT sum(qty_cost) as total_cost from tbl_cost where cost_date between '$date_1' AND '$date_2'");
-                    confirm($tbl_cost);
-                    $row_cost = $tbl_cost->fetch_object();
 
-                    $select = query("SELECT sum(total) as total , sum(subtotal) as stotal,sum(discount) as discount from tbl_invoice where order_date between '$date_1' AND '$date_2'");
-                    confirm($select);
-                    $row = $select->fetch_object();
-
-                    $net_total = $row->total;
-
-                    $stotal = $row->stotal;
-
-                    $discount = $row->discount;
-
-                    $cost = $row_cost->total_cost;
-
-                    $total_cost = $stotal - $cost;
-
-
-
-                    ?>
 
                 <div class="row">
 
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
-
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-green"><i class="fa" style="font-size: 96px; ">៛</i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Sub Total</span>
-                                    <span class="info-box-number">
-                                        <h2><?php echo number_format($stotal); ?></h2>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-aqua"><i class="fa" style="font-size: 96px; ">៛</i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Discount</span>
-                                    <span class="info-box-number">
-                                        <h2><?php echo $discount;?></h2>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-yellow"><i class="fa" style="font-size: 96px; ">៛</i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total-Discount</span>
-                                    <span class="info-box-number">
-                                        <h2><?php echo number_format($net_total); ?></h2>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-red"><i class="fa" style="font-size: 96px; ">៛</i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">សរុបប្រាក់ចំណាយ</span>
-                                    <span class="info-box-number">
-                                        <h2><?php echo number_format($cost); ?></h2>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                    </div>
+                    <!-- fix for small devices only -->
+                    <div class="clearfix visible-sm-block"></div>
 
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-blue"><i class="fa" style="font-size: 96px; ">៛</i></span>
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
-                                <div class="info-box-content">
-                                    <span class="info-box-text">សរុបដកប្រាក់ចំណាយ</span>
-                                    <span class="info-box-number">
-                                        <h2><?php echo number_format($total_cost); ?></h2>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
+                            <div class="info-box-content">
+                                <span class="info-box-text">Sub Total</span>
+                                <span class="info-box-number">
+                                    <h2><?php echo number_format($stotal); ?></h2>
+                                </span>
                             </div>
-                            <!-- /.info-box -->
+                            <!-- /.info-box-content -->
                         </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Discount</span>
+                                <span class="info-box-number">
+                                    <h2><?php echo $discount; ?></h2>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-yellow"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ចំណាយផ្សេងៗ</span>
+                                <span class="info-box-number">
+                                    <h2><?php echo number_format($total_jomnay); ?></h2>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-red"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ថ្លៃដើម</span>
+                                <span class="info-box-number">
+                                    <h2><?php echo number_format($total); ?></h2>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-blue"><i class="fa" style="font-size: 96px; ">៛</i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ប្រាក់ចំណេញ</span>
+                                <span class="info-box-number">
+                                    <h2><?php echo number_format($total_cost); ?></h2>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
 
                 <table id="salesreporttable" class="table table-striped">
                     <thead>

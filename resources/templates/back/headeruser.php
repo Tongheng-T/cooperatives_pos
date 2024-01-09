@@ -76,7 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="../plugins/iCheck/all.css">
-
+    <script src="../dist/js/scriptss.js"></script>
     <!-- iCheck 1.0.1 -->
     <script src="../plugins/iCheck/icheck.min.js"></script>
     <link rel="stylesheet" href="../dist/css/castom.css">

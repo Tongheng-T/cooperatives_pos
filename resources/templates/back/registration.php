@@ -94,12 +94,16 @@ if (isset($_POST['btnsaved'])) {
                                 <th>EMAIL</th>
                                 <th>PASSWORD</th>
                                 <th>ROLE</th>
+                                <th>EDIT</th>
                                 <th>DELETE</th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="user_grid">
                             <?php
+                            $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+                            $datee =  $time->format('Y-m-d H:i:s');
+                            $time = time();
                             $select = query("SELECT * from tbl_user order by userid ASC");
                             confirm($select);
 
@@ -116,10 +120,18 @@ if (isset($_POST['btnsaved'])) {
                                 } else {
                                     $delete = '<a href="../resources/templates/back/delete.php?id=' . $row->userid . '" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash" title="delete"></span></a>';
                                 }
+                                $date = date($row->last_login);
+                                $timeago = timeago($date);
+                                $status = $timeago;
+                                $class = "text-danger";
+                                if ($row->login_online > $time) {
+                                    $status = 'Online';
+                                    $class = "text-success";
+                                }
                                 echo '
                                    <tr>
                                    <td>' . $row->userid . '</td>
-                                   <td> <img height="50" src="../resources/userpic/' . $row->img . '" alt=""> ' . $row->username . '</td>
+                                   <td> <img height="50" src="../resources/userpic/' . $row->img . '" alt=""> ' . $row->username . '<p class="' . $class . '"><i class="fas fa-signal"></i>  ' . $status . ' </p></td>
                                    <td>' . $row->useremail . '</td>
                                    <td>' . $password . '</td>  
                                    <td>' . $row->role . '</td>

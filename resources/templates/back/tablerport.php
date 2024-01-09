@@ -237,7 +237,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
 
 
-                <table id="salesreporttable" class="table table-striped">
+                <table id="salesreporttables" class="table table-striped">
                     <thead>
                         <tr>
                             <th>N.0</th>
@@ -262,6 +262,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                         $select = query("SELECT * from tbl_invoice where order_date between '$date_1' AND '$date_2'");
                         confirm($select);
                         $no = 1;
+                        $ddd=0;
                         while ($row = $select->fetch_object()) {
 
                             echo '
@@ -292,8 +293,16 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                                 echo '<td><span class="label label-info">' . $row->payment_type . '</span></td>';
                             }
                             $no++;
-                        }
 
+                            $ddd +=$row->discount;
+                        }
+                        echo
+                        '<tr>
+                        <td colspan="5"></td>
+                        <th>សរុប</th>
+                        <th>' . number_format($ddd) . ' <b style="font-size: 16px;">&#x17DB </b></th>
+                        </tr>
+                         ';
 
                         ?>
 

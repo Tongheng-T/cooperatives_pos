@@ -91,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- <script src="../dist/js/jquery.js"></script> -->
     <script src="../dist/js/jautocalc.min.js"></script>
-    <script src="../dist/js/scripts.js"></script>
+    <script src="../dist/js/scriptss.js"></script>
     <!-- auto sum -->
     <link rel="stylesheet" href="../dist/css/castom.css">
     <link rel="stylesheet" href="../dist/css/castermm.css">
