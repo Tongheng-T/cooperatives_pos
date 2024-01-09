@@ -630,7 +630,6 @@ function get_products()
         <td>
         <a href="invoice_80mm.php?id=' . $row->invoice_id . '" class="btn btn-warning" role="button" target=_blank><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
         </td>
-        <td><a href="itemt?editorder&id=' . $row->invoice_id . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a></td>
         ' . show_delete($row->invoice_id) . '
 
         </tr>';
@@ -653,7 +652,9 @@ function show_delete($invoice_id)
 {
     if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "Admin") {
 
-        return '<td>
+        return '
+        <td><a href="itemt?editorder&id=' . $invoice_id . '" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a></td>
+        <td>
         <button id=' . $invoice_id . ' class="btn btn-danger btndelete"> <span class="glyphicon glyphicon-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Order"></span></button>
         </td>';
     }

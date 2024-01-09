@@ -167,7 +167,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                         </div>
                         <!-- /.info-box -->
                     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
+                    <!-- <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">
                             <span class="info-box-icon bg-aqua"><i class="fa" style="font-size: 96px; ">៛</i></span>
 
@@ -177,10 +177,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
                                     <h2><?php echo $discount; ?></h2>
                                 </span>
                             </div>
-                            <!-- /.info-box-content -->
+                         
                         </div>
-                        <!-- /.info-box -->
-                    </div>
+                       
+                    </div> -->
                     <!-- /.col -->
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">
