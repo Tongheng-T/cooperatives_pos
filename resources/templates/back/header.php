@@ -235,6 +235,7 @@ desired effect
                     <li><a href="itemt?dashboard" class=" <?php actr("dashboard");?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                     <li><a href="itemt?category" class=" <?php actr("category");?>"><i class="fa fa-list-alt"></i> <span>Category</span></a></li>
                     <li><a href="itemt?addproduct" class=" <?php actr("addproduct");?>"><i class="fa fa-product-hunt"></i> <span>Add Product</span></a></li>
+                    <li><a href="itemt?add_stock" class=" <?php actr("add_stock");?>"><i class="fa fa-plus-circle"></i> <span>Add Stock</span></a></li>
                     <li><a href="itemt?productlist" class=" <?php actr("productlist");?>"><i class="fa fa-th-list"></i> <span>Productlist</span></a></li>
                     <li><a href="itemt?createorder" class=" <?php actr("createorder");?>"><i class="fa fa-first-order"></i> <span>Createorder</span></a></li>
                     <li><a href="itemt?orderlist" class=" <?php actr("orderlist");?>"><i class="fa fa-list-ul"></i> <span>Orderlist</span></a></li>

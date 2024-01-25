@@ -121,7 +121,7 @@ if (isset($_POST['btnsaveorder'])) {
       <!--tax dis. etc-->
       <hr>
       <div align="center">
-        <input type="submit" name="btnsaveorder" value="Save" class="btn btn-info">
+        <input type="submit" name="btnsaveorder" value="Save" disabled class="btn btn-info">
 
       </div>
       <hr>
@@ -275,6 +275,14 @@ if (isset($_POST['btnsaveorder'])) {
 
       //Initialize Select2 Elements
 
+      $(".qty").on('change', function(e) {
+            var newstock = $(this).val();
+            if (newstock >= 1) {
+                $('.btn-info').prop('disabled', false);
+            } else {
+                $('.btn-info').prop('disabled', true);
+            }
+        })
     })
 
     $(document).on('click', '.btnremove', function() {

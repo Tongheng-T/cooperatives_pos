@@ -100,6 +100,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         include(TEMPLATE_BACK . "/exchange.php");
     }
+    if (isset($_GET['add_stock'])) {
+
+        include(TEMPLATE_BACK . "/add_stock.php");
+    }
     ?>
 
 
